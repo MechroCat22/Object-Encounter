@@ -3,10 +3,33 @@ guid: 1dcf24a9de89075429f3818b650e25d8
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
+    100000: convert
+    100002: door
+    100004: flag
+    100006: Point001
+    100008: Point002
+    100010: post box
+    100012: //RootNode
+    400000: convert
+    400002: door
+    400004: flag
+    400006: Point001
+    400008: Point002
+    400010: //RootNode
+    400012: post box
+    2300000: convert
+    2300002: door
+    2300004: flag
+    2300006: post box
+    3300000: convert
+    3300002: door
+    3300004: flag
+    3300006: post box
     4300000: post box
     4300002: door
     4300004: flag
     4300006: convert
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
