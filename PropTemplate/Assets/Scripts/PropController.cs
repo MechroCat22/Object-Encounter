@@ -13,7 +13,9 @@ public class PropController : NetworkBehaviour {
     private Camera myCamera;
 
     private Rigidbody rigidBody;
-    private int objectMask;
+
+    [SyncVar]
+    private bool isActive;
 
     [SyncVar]
     private int health;
@@ -45,9 +47,6 @@ public class PropController : NetworkBehaviour {
         myCamera = cam.GetComponent<Camera>();
         rigidBody = GetComponent<Rigidbody>();
 
-        // this mask is used so that the ray cast only hits "objects"
-        objectMask = LayerMask.GetMask("Object");
-
         // life status
         health = MaxHealth;
         dead = false;
@@ -58,6 +57,16 @@ public class PropController : NetworkBehaviour {
         }
         if (isLocalPlayer) {
             NetworkClient.allClients[0].RegisterHandler(PropMessage.TypeId, OnPropMessageClient);
+        }
+
+        // TEMPORARY SOLUTION: the server is the hunter
+        if (isServer) {
+            if (isLocalPlayer) {
+                isActive = false;
+            }
+            else {
+                isActive = true;
+            }
         }
     }
 
@@ -77,8 +86,8 @@ public class PropController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        // TEMPORARY solution: the server is the hunter
-        if (isServer)
+        // Return if I am not a prop player
+        if (!isActive)
             return;
 
         // if dead, no more action
@@ -97,9 +106,11 @@ public class PropController : NetworkBehaviour {
             Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
             RaycastHit objectHit;
 
-            if (Physics.Raycast(camRay, out objectHit, CamRayLength, objectMask)) {
+            if (Physics.Raycast(camRay, out objectHit, CamRayLength)) {
                 GameObject obj = objectHit.transform.gameObject;
-                SendPropMessageChange(obj);
+                // only change models if the tag is "Object"
+                if (obj.tag.Equals("Object"))
+                    SendPropMessageChange(obj);
             }
         }
     }
@@ -177,7 +188,7 @@ public class PropController : NetworkBehaviour {
         Destroy(playerModel);
         playerModel = Instantiate(prop, graphics.transform.position, graphics.transform.rotation) as GameObject;
         playerModel.transform.parent = graphics.transform;
-        playerModel.layer = LayerMask.NameToLayer("Player");
+        playerModel.tag = "Player";
         MeshCollider meshCollider = playerModel.GetComponent<MeshCollider>();
         if (meshCollider != null) {
             meshCollider.convex = true; // non-kinematic rigid body can only have a convex mesh collider
