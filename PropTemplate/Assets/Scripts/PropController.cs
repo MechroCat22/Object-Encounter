@@ -109,7 +109,7 @@ public class PropController : NetworkBehaviour {
             if (Physics.Raycast(camRay, out objectHit, CamRayLength)) {
                 GameObject obj = objectHit.transform.gameObject;
                 // only change models if the tag is "Object"
-                if (obj.tag.Equals("Object"))
+                if (obj.tag.Equals("Prop"))
                     SendPropMessageChange(obj);
             }
         }
