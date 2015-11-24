@@ -21,7 +21,7 @@ public class HunterController : NetworkBehaviour {
 	void Start () {
         myCamera = transform.Find("Camera").GetComponent<Camera>();
         Transform gun = myCamera.transform.Find("Gun");
-        Transform psh = gun.Find("ParticleSystemHolder");
+        Transform psh = gun.Find("Shot Effect");
         Transform ps = psh.Find("Particle System");
         psys = ps.GetComponent<ParticleSystem>();
         //psys = myCamera.transform.Find("Gun").Find("ParticleSystemHolder").Find("Particle System").GetComponent<ParticleSystem>();
