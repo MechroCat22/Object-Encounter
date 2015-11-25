@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
-using UnityStandardAssets.CrossPlatformInput;
+//using UnityStandardAssets.CrossPlatformInput;
 
 public class PropController : NetworkBehaviour {
 
@@ -50,6 +50,11 @@ public class PropController : NetworkBehaviour {
         // life status
         health = MaxHealth;
         dead = false;
+
+        // disable UI for other players
+        if (!isLocalPlayer) {
+            cam.transform.Find("Canvas").gameObject.SetActive(false);
+        }
 
         // setup handlers
         if (isServer) {
@@ -101,7 +106,7 @@ public class PropController : NetworkBehaviour {
         }
 
         // Fire1: turn the player into the object he/she is aiming at
-        if (CrossPlatformInputManager.GetButtonDown("Fire1")) {
+        if (Input.GetButtonDown("Fire1")) {
             // the aim is locked at the center of the screen
             Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
             RaycastHit objectHit;

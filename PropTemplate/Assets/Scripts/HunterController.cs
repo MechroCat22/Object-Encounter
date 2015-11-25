@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
-using UnityStandardAssets.CrossPlatformInput;
+//using UnityStandardAssets.CrossPlatformInput;
 
 public class HunterController : NetworkBehaviour {
 
@@ -48,7 +48,7 @@ public class HunterController : NetworkBehaviour {
 
         // time counter: can only shoot when a certain amount of time (FireRate) has passed
         timeCounter += Time.deltaTime;
-        if (CrossPlatformInputManager.GetButton("Fire1") && timeCounter > FireRate) {
+        if (Input.GetButton("Fire1") && timeCounter > FireRate) {
             // reset time counter
             timeCounter = 0.0f;
 
