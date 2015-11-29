@@ -6,7 +6,10 @@ using System.Collections;
 
 public class PropController : NetworkBehaviour {
 
-    public GameObject TestModel;
+    public Text UIText;
+    public int MaxHealth = 100;
+    public float InteractDistance = 10f;
+
     private GameObject playerModel;
     private GameObject graphics;
     private GameObject cam;
@@ -14,16 +17,15 @@ public class PropController : NetworkBehaviour {
 
     private Rigidbody rigidBody;
 
+    private DoorController doorController;
+
     [SyncVar]
     private bool isActive;
 
-    [SyncVar]
-    private int health;
+    [SyncVar, HideInInspector]
+    public int health;
     [SyncVar]
     private bool dead;
-
-    private const int MaxHealth = 100;
-    private const float CamRayLength = 100f;
 
     public class PropMessage : MessageBase {
         public enum Type { Change, Death };
@@ -46,6 +48,7 @@ public class PropController : NetworkBehaviour {
         cam = transform.Find("Camera").gameObject;
         myCamera = cam.GetComponent<Camera>();
         rigidBody = GetComponent<Rigidbody>();
+        doorController = GetComponent<DoorController>();
 
         // life status
         health = MaxHealth;
@@ -105,18 +108,32 @@ public class PropController : NetworkBehaviour {
             return;
         }
 
-        // Fire1: turn the player into the object he/she is aiming at
-        if (Input.GetButtonDown("Fire1")) {
-            // the aim is locked at the center of the screen
-            Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-            RaycastHit objectHit;
-
-            if (Physics.Raycast(camRay, out objectHit, CamRayLength)) {
-                GameObject obj = objectHit.transform.gameObject;
-                // only change models if the tag is "Object"
-                if (obj.tag.Equals("Prop"))
+        // the aim is locked at the center of the screen
+        Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+        RaycastHit objectHit;
+        if (Physics.Raycast(camRay, out objectHit, InteractDistance)) {
+            GameObject obj = objectHit.transform.gameObject;
+            // aiming at a prop
+            if (obj.tag.Equals("Prop")) {
+                UIText.text = "Press \"Fire1\" to change into the " + obj.name;
+                // if Fire1 down, change into that object
+                if (Input.GetButtonDown("Fire1")) {
                     SendPropMessageChange(obj);
+                }
             }
+            else if (obj.tag.Equals("Door")) { // aiming at a door
+                UIText.text = "Press \"Fire1\" to open/close the door";
+                // if Fire1 down, open/close that door
+                if (Input.GetButtonDown("Fire1")) {
+                    doorController.CmdMoveDoor(obj);
+                }
+            }
+            else {
+                UIText.text = "Test";
+            }
+        }
+        else {
+            UIText.text = "Test";
         }
     }
 
@@ -215,15 +232,14 @@ public class PropController : NetworkBehaviour {
         }
     }
 
-    // called when I am going to die
+    // called on death, only local player
     private void Die() {
-        // change player status
-        dead = true;
         GetComponent<PlayerController>().enabled = false;
     }
 
-    // update the model of the player who died in all clients
+    // called on death, every player
     private void UpdateDeath() {
+        dead = true;
         playerModel.GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f);
     }
 }

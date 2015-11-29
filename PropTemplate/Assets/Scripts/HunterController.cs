@@ -1,30 +1,34 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
 //using UnityStandardAssets.CrossPlatformInput;
 
 public class HunterController : NetworkBehaviour {
 
-    private float timeCounter = 0.3f;
+    public Text UIText;
+    public float FireRate = 0.3f;
+    public int Damage = 34;
+    public float ShootDistance = 100f;
+    public float InteractDistance = 10f;
 
-    private const float FireRate = 0.3f;
-    private const int Damage = 34;
-    private const float CamRayLength = 100f;
+    private float timeCounter = 0;
 
     [SyncVar]
     private bool isActive;
 
     private Camera myCamera;
     private ParticleSystem psys;
+    private DoorController doorController;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         myCamera = transform.Find("Camera").GetComponent<Camera>();
         Transform gun = myCamera.transform.Find("Gun");
         Transform psh = gun.Find("Shot Effect");
         Transform ps = psh.Find("Particle System");
         psys = ps.GetComponent<ParticleSystem>();
-        //psys = myCamera.transform.Find("Gun").Find("ParticleSystemHolder").Find("Particle System").GetComponent<ParticleSystem>();
+        doorController = GetComponent<DoorController>();
 
         // TEMPORARY solution: the server is the hunter
         if (isServer) {
@@ -38,40 +42,48 @@ public class HunterController : NetworkBehaviour {
         if (!isActive) {
             gun.gameObject.SetActive(false);
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update() {
         // return if I am not a hunter player
-        if (!isActive || !isLocalPlayer) 
+        if (!isActive || !isLocalPlayer)
             return;
 
         // time counter: can only shoot when a certain amount of time (FireRate) has passed
         timeCounter += Time.deltaTime;
-        if (Input.GetButton("Fire1") && timeCounter > FireRate) {
-            // reset time counter
-            timeCounter = 0.0f;
 
-            // play the muzzle flash effect
-            psys.Play();
+        // the aim is locked at the center of the screen
+        Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+        RaycastHit objectHit;
+        if (Physics.Raycast(camRay, out objectHit, ShootDistance)) {
+            GameObject obj = objectHit.transform.gameObject;
+            // if aiming at a player
+            if (obj.tag.Equals("Player")) {
+                if (Input.GetButton("Fire1") && timeCounter > FireRate) {
+                    // reset time counter
+                    timeCounter = 0.0f;
 
-            // the aim is locked at the center of the screen
-            Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-            RaycastHit objectHit;
-
-            if (Physics.Raycast(camRay, out objectHit, CamRayLength)) {
-                GameObject obj = objectHit.transform.gameObject;
-                // only do the following when the tag is "Player"
-                if (obj.tag.Equals("Player")) {
+                    // play the muzzle flash effect
+                    psys.Play();
                     //GameObject playerHit = obj.transform.parent.parent.gameObject;
                     GameObject playerHit = obj;
                     playerHit.GetComponent<PropController>().TakeDamage(Damage);
                     Debug.Log("Hit: " + playerHit);
                 }
             }
+            else if (obj.tag.Equals("Door") && objectHit.distance < InteractDistance) {
+                UIText.text = "Press \"Fire1\" to open/close the door"; 
+                if (Input.GetButtonDown("Fire1")) {
+                    doorController.CmdMoveDoor(obj);
+                }
+            }
             else {
-                Debug.Log("Miss");
+                UIText.text = "Test";
             }
         }
-	}
+        else {
+            UIText.text = "Test";
+        }
+    }
 }

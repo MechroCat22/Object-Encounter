@@ -17,7 +17,7 @@ Loading D:\Unity Projects\VR-Object-Hunt\PropTemplate\test_Data\Managed\UnityEng
 Platform assembly: D:\Unity Projects\VR-Object-Hunt\PropTemplate\test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading D:\Unity Projects\VR-Object-Hunt\PropTemplate\test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: D:\Unity Projects\VR-Object-Hunt\PropTemplate\test_Data\Managed\System.Core.dll (this message is harmless)
-- Completed reload, in  0.047 seconds
+- Completed reload, in  0.065 seconds
 desktop: 1920x1080 60Hz; virtual: 3840x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
@@ -41,28 +41,132 @@ Loading D:\Unity Projects\VR-Object-Hunt\PropTemplate\test_Data\Managed\UnityEng
 Platform assembly: D:\Unity Projects\VR-Object-Hunt\PropTemplate\test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading D:\Unity Projects\VR-Object-Hunt\PropTemplate\test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: D:\Unity Projects\VR-Object-Hunt\PropTemplate\test_Data\Managed\System.Core.dll (this message is harmless)
-- Completed reload, in  0.044 seconds
+- Completed reload, in  0.045 seconds
 desktop: 1920x1080 60Hz; virtual: 3840x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
 Platform assembly: D:\Unity Projects\VR-Object-Hunt\PropTemplate\test_Data\Managed\System.dll (this message is harmless)
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 2e78 -> priority: 1 
-  Thread -> id: b78 -> priority: 1 
+  Thread -> id: 3b88 -> priority: 1 
+  Thread -> id: 4b78 -> priority: 1 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 18.408356 ms
+UnloadTime: 26.938398 ms
 
-Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 39043.
-Total: 6.571547 ms (FindLiveObjects: 2.057399 ms CreateObjectMapping: 0.707726 ms MarkObjects: 3.742506 ms  DeleteObjects: 0.063914 ms)
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 39052.
+Total: 7.527001 ms (FindLiveObjects: 2.411029 ms CreateObjectMapping: 0.755312 ms MarkObjects: 4.288814 ms  DeleteObjects: 0.071379 ms)
 
 Platform assembly: D:\Unity Projects\VR-Object-Hunt\PropTemplate\test_Data\Managed\System.dll (this message is harmless)
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: eb0 -> priority: 1 
-  Thread -> id: ebc -> priority: 1 
+  Thread -> id: 42e0 -> priority: 1 
+  Thread -> id: 322c -> priority: 1 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 25.016293 ms
+UnloadTime: 25.845785 ms
 
-Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 38968.
-Total: 7.499009 ms (FindLiveObjects: 2.819709 ms CreateObjectMapping: 0.710525 ms MarkObjects: 3.902060 ms  DeleteObjects: 0.066247 ms)
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 38976.
+Total: 6.723636 ms (FindLiveObjects: 2.401698 ms CreateObjectMapping: 0.744582 ms MarkObjects: 3.512040 ms  DeleteObjects: 0.064381 ms)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+True Static 90
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
 
