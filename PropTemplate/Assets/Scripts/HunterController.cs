@@ -56,21 +56,12 @@ public class HunterController : NetworkBehaviour {
         // the aim is locked at the center of the screen
         Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
         RaycastHit objectHit;
+        GameObject obj = null;
         if (Physics.Raycast(camRay, out objectHit, ShootDistance)) {
-            GameObject obj = objectHit.transform.gameObject;
+            obj = objectHit.transform.gameObject;
             // if aiming at a player
             if (obj.tag.Equals("Player")) {
-                if (Input.GetButton("Fire1") && timeCounter > FireRate) {
-                    // reset time counter
-                    timeCounter = 0.0f;
-
-                    // play the muzzle flash effect
-                    psys.Play();
-                    //GameObject playerHit = obj.transform.parent.parent.gameObject;
-                    GameObject playerHit = obj;
-                    playerHit.GetComponent<PropController>().TakeDamage(Damage);
-                    Debug.Log("Hit: " + playerHit);
-                }
+                
             }
             else if (obj.tag.Equals("Door") && objectHit.distance < InteractDistance) {
                 UIText.text = "Press \"Fire1\" to open/close the door"; 
@@ -84,6 +75,20 @@ public class HunterController : NetworkBehaviour {
         }
         else {
             UIText.text = "Test";
+        }
+
+        if (Input.GetButton("Fire1") && timeCounter > FireRate) {
+            // reset time counter
+            timeCounter = 0.0f;
+
+            // play the muzzle flash effect
+            psys.Play();
+
+            if (obj != null && obj.tag.Equals("Player")) {
+                GameObject playerHit = obj;
+                playerHit.GetComponent<PropController>().TakeDamage(Damage);
+                Debug.Log("Hit: " + playerHit);
+            }
         }
     }
 }
