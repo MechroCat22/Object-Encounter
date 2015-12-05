@@ -64,8 +64,8 @@ public class HunterController : NetworkBehaviour {
                 
             }
             else if (obj.tag.Equals("Door") && objectHit.distance < InteractDistance) {
-                UIText.text = "Press \"Fire1\" to open/close the door"; 
-                if (Input.GetButtonDown("Fire1")) {
+                UIText.text = "Press \"Fire2\" to open/close the door"; 
+                if (Input.GetButtonDown("Fire2")) {
                     doorController.CmdMoveDoor(obj);
                 }
             }

@@ -6,13 +6,15 @@ using System.Collections;
 public class DoorMotor : NetworkBehaviour {
 
     // axis to rotate around
-    public float AxisX;
-    public float AxisY;
-    public float AxisZ;
+    public float AxisX = 0.0f;
+    public float AxisY = 0.0f;
+    public float AxisZ = 0.0f;
     // degree when the door is completely open
-    public float MaxDegree;
+    public float MaxDegree = 90.0f;
     // time it takes to reach the max degree
     public float OpenTime = 0.5f;
+
+    private NetworkTransform networkTransform;
 
     //[SyncVar]
     private float currDegree;
@@ -25,7 +27,9 @@ public class DoorMotor : NetworkBehaviour {
         currDegree = 0;
         currState = State.Static;
         GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<NetworkTransform>().transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
+        networkTransform = GetComponent<NetworkTransform>();
+        networkTransform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
+        networkTransform.sendInterval = 0;
     }
 
     void FixedUpdate() {
@@ -48,6 +52,7 @@ public class DoorMotor : NetworkBehaviour {
                     currDegree += deltaDegree;
                 }
                 transform.RotateAround(transform.TransformPoint(new Vector3(AxisX, AxisY, AxisZ)), new Vector3(0, 1, 0), deltaDegree);
+                networkTransform.SetDirtyBit(1u);
                 break;
 
             case State.Closing:
@@ -62,6 +67,7 @@ public class DoorMotor : NetworkBehaviour {
                     currDegree += deltaDegree;
                 }
                 transform.RotateAround(transform.TransformPoint(new Vector3(AxisX, AxisY, AxisZ)), new Vector3(0, 1, 0), deltaDegree);
+                networkTransform.SetDirtyBit(1u);
                 break;
 
         }

@@ -122,9 +122,9 @@ public class PropController : NetworkBehaviour {
                 }
             }
             else if (obj.tag.Equals("Door")) { // aiming at a door
-                UIText.text = "Press \"Fire1\" to open/close the door";
+                UIText.text = "Press \"Fire2\" to open/close the door";
                 // if Fire1 down, open/close that door
-                if (Input.GetButtonDown("Fire1")) {
+                if (Input.GetButtonDown("Fire2")) {
                     doorController.CmdMoveDoor(obj);
                 }
             }
