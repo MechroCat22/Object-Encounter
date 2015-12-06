@@ -2,7 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 
-[RequireComponent(typeof(Rigidbody), typeof(NetworkTransform))]
+[RequireComponent(typeof(Rigidbody))]
 public class DoorMotor : NetworkBehaviour {
 
     // axis to rotate around
@@ -14,12 +14,12 @@ public class DoorMotor : NetworkBehaviour {
     // time it takes to reach the max degree
     public float OpenTime = 0.5f;
 
-    private NetworkTransform networkTransform;
+    //private NetworkTransform networkTransform;
 
     //[SyncVar]
     private float currDegree;
     private enum State { Opening, Closing, Static };
-    //[SyncVar]
+    [SyncVar]
     private State currState;
 
     // Use this for initialization
@@ -27,14 +27,14 @@ public class DoorMotor : NetworkBehaviour {
         currDegree = 0;
         currState = State.Static;
         GetComponent<Rigidbody>().isKinematic = true;
-        networkTransform = GetComponent<NetworkTransform>();
-        networkTransform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
-        networkTransform.sendInterval = 0;
+        //networkTransform = GetComponent<NetworkTransform>();
+        //networkTransform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
+        //networkTransform.sendInterval = 29;
     }
 
     void FixedUpdate() {
-        if (!isServer)
-            return;
+        //if (!isServer)
+        //    return;
 
         float currSpeed;
         float deltaDegree;
@@ -52,7 +52,7 @@ public class DoorMotor : NetworkBehaviour {
                     currDegree += deltaDegree;
                 }
                 transform.RotateAround(transform.TransformPoint(new Vector3(AxisX, AxisY, AxisZ)), new Vector3(0, 1, 0), deltaDegree);
-                networkTransform.SetDirtyBit(1u);
+                //networkTransform.SetDirtyBit(1u);
                 break;
 
             case State.Closing:
@@ -67,7 +67,7 @@ public class DoorMotor : NetworkBehaviour {
                     currDegree += deltaDegree;
                 }
                 transform.RotateAround(transform.TransformPoint(new Vector3(AxisX, AxisY, AxisZ)), new Vector3(0, 1, 0), deltaDegree);
-                networkTransform.SetDirtyBit(1u);
+                //networkTransform.SetDirtyBit(1u);
                 break;
 
         }
