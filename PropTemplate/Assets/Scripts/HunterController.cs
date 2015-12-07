@@ -6,6 +6,7 @@ using System.Collections;
 
 public class HunterController : NetworkBehaviour {
 
+
     public Text UIText;
     public float FireRate = 0.3f;
     public int Damage = 34;
@@ -77,12 +78,16 @@ public class HunterController : NetworkBehaviour {
             UIText.text = "Test";
         }
 
-        if (Input.GetButton("Fire1") && timeCounter > FireRate) {
+        if (Input.GetButtonDown("Fire1") && timeCounter > FireRate) {
             // reset time counter
             timeCounter = 0.0f;
 
             // play the muzzle flash effect
             psys.Play();
+           
+            // play the gun sound effect
+            GetComponent<AudioSource>().Play();
+            
 
             if (obj != null && obj.tag.Equals("Player")) {
                 GameObject playerHit = obj;
