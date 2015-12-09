@@ -6,6 +6,7 @@ using System.Collections;
 
 public class PropController : NetworkBehaviour {
 
+    public GameObject DefaultModel;
     public Text UIText;
     public int MaxHealth = 100;
     public float InteractDistance = 10f;
@@ -19,6 +20,9 @@ public class PropController : NetworkBehaviour {
 
     private DoorController doorController;
 
+    private Vector3 spawnPosition;
+    private Quaternion spawnRotation;
+
     [SyncVar]
     private bool isActive;
 
@@ -28,7 +32,7 @@ public class PropController : NetworkBehaviour {
     private bool dead;
 
     public class PropMessage : MessageBase {
-        public enum Type { Change, Death };
+        public enum Type { Change, Death, Respawn };
         public static short TypeId = 555;
         public Type msgType;
         public NetworkInstanceId player;
@@ -53,6 +57,10 @@ public class PropController : NetworkBehaviour {
         // life status
         health = MaxHealth;
         dead = false;
+
+        // record the spawn place, used to respawn
+        spawnPosition = transform.position;
+        spawnRotation = transform.rotation;
 
         // disable UI for other players
         if (!isLocalPlayer) {
@@ -103,7 +111,7 @@ public class PropController : NetworkBehaviour {
             return;
         }
         else if (health <= 0) {
-            Die();
+            DieLocal();
             SendPropMessageDie();
             return;
         }
@@ -165,6 +173,19 @@ public class PropController : NetworkBehaviour {
         Debug.Log("Client sent: " + msg.player);
     }
 
+    // send message when the player is respawned
+    private void SendPropMessageRespawn() {
+        NetworkIdentity playerIdtt = gameObject.GetComponent<NetworkIdentity>() as NetworkIdentity;
+        if (playerIdtt == null)
+            return;
+
+        PropMessage msg = new PropMessage();
+        msg.msgType = PropMessage.Type.Respawn;
+        msg.player = playerIdtt.netId;
+        NetworkClient.allClients[0].Send(PropMessage.TypeId, msg);
+        Debug.Log("Client sent: " + msg.player);
+    }
+
     // server message handler
     private void OnPropMessageServer(NetworkMessage netMsg) {
         PropMessage msg = netMsg.ReadMessage<PropMessage>();
@@ -188,7 +209,12 @@ public class PropController : NetworkBehaviour {
                 }
             case PropMessage.Type.Death: {
                     GameObject playerDied = ClientScene.FindLocalObject(msg.player);
-                    playerDied.GetComponent<PropController>().UpdateDeath();
+                    playerDied.GetComponent<PropController>().DieClient();
+                    break;
+                }
+            case PropMessage.Type.Respawn: {
+                    GameObject playerDied = ClientScene.FindLocalObject(msg.player);
+                    playerDied.GetComponent<PropController>().RespawnClient();
                     break;
                 }
         }
@@ -233,13 +259,66 @@ public class PropController : NetworkBehaviour {
     }
 
     // called on death, only local player
-    private void Die() {
+    private void DieLocal() {
         GetComponent<PlayerController>().enabled = false;
+        StartCoroutine(WaitRespawn(5));
     }
 
     // called on death, every player
-    private void UpdateDeath() {
+    private void DieClient() {
         dead = true;
         playerModel.GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f);
+    }
+
+    // display respawn message
+    private IEnumerator WaitRespawn(int seconds) {
+        string template = "You died.\nRespawn in {0} second(s).";
+        for (int i = 0; i < seconds; ++i) {
+            UIText.text = string.Format(template, seconds - i);
+            yield return new WaitForSeconds(1);
+        }
+        RespawnLocal();
+        SendPropMessageRespawn();
+        UIText.text = "";
+    }
+
+    // called on respawn, local player
+    private void RespawnLocal() {
+        GetComponent<PlayerController>().enabled = true;
+    }
+
+    // called on respawn, every player
+    private void RespawnClient() {
+        // FIRST PART: 
+        // reset the model to the default model
+        Mesh targetMesh = DefaultModel.GetComponent<MeshFilter>().sharedMesh;
+        // transport the player to the spawn point
+        rigidBody.Sleep();
+        rigidBody.position = spawnPosition;
+        rigidBody.rotation = spawnRotation;
+
+        // change the mesh
+        //playerModel.GetComponent<MeshFilter>().mesh = targetMesh;
+        //playerModel.GetComponent<MeshCollider>().sharedMesh = null;
+        //playerModel.GetComponent<MeshCollider>().sharedMesh = obj.GetComponent<MeshCollider>().sharedMesh;
+        Destroy(playerModel);
+        playerModel = Instantiate(DefaultModel, graphics.transform.position, graphics.transform.rotation) as GameObject;
+        playerModel.transform.parent = graphics.transform;
+        playerModel.tag = "Player";
+        MeshCollider meshCollider = playerModel.GetComponent<MeshCollider>();
+        if (meshCollider != null) {
+            meshCollider.convex = true; // non-kinematic rigid body can only have a convex mesh collider
+        }
+
+        // also adjust the camera to the front face of the new model
+        cam.transform.localPosition = new Vector3(0, 0, targetMesh.bounds.max.z);
+
+        // SECOND PART:
+        // reset health the dead status
+        // ONLY ON SERVER!
+        if (!isServer)
+            return;
+        health = MaxHealth;
+        dead = false;
     }
 }
