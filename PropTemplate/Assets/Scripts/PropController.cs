@@ -20,6 +20,8 @@ public class PropController : NetworkBehaviour {
 
     private DoorController doorController;
 
+    private Timer timer;
+
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
 
@@ -53,6 +55,7 @@ public class PropController : NetworkBehaviour {
         myCamera = cam.GetComponent<Camera>();
         rigidBody = GetComponent<Rigidbody>();
         doorController = GetComponent<DoorController>();
+        timer = GameObject.Find("Timer").GetComponent<Timer>();
 
         // life status
         health = MaxHealth;
@@ -61,6 +64,11 @@ public class PropController : NetworkBehaviour {
         // record the spawn place, used to respawn
         spawnPosition = transform.position;
         spawnRotation = transform.rotation;
+        
+        // set initial camera position
+        Mesh mesh = playerModel.GetComponent<MeshFilter>().mesh;
+        cam.transform.localPosition = new Vector3(0, mesh.bounds.max.y * 0.9f, mesh.bounds.max.z);
+        //Debug.Log("bounds:" + mesh.bounds.max.y);
 
         // disable UI for other players
         if (!isLocalPlayer) {
@@ -102,9 +110,16 @@ public class PropController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        // Return if I am not a prop player
+        // return if I am not a prop player
         if (!isActive)
             return;
+
+        // return if game is over
+        if (timer.GameOver()) {
+            GetComponent<PlayerController>().enabled = false;
+            UIText.text = "Game Over!";
+            return;
+        }
 
         // if dead, no more action
         if (dead) {

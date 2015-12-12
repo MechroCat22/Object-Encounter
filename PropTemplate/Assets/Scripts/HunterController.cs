@@ -21,6 +21,7 @@ public class HunterController : NetworkBehaviour {
     private Camera myCamera;
     private ParticleSystem psys;
     private DoorController doorController;
+    private Timer timer;
 
     // Use this for initialization
     void Start() {
@@ -30,6 +31,7 @@ public class HunterController : NetworkBehaviour {
         Transform ps = psh.Find("Particle System");
         psys = ps.GetComponent<ParticleSystem>();
         doorController = GetComponent<DoorController>();
+        timer = GameObject.Find("Timer").GetComponent<Timer>();
 
         // TEMPORARY solution: the server is the hunter
         if (isServer) {
@@ -50,6 +52,13 @@ public class HunterController : NetworkBehaviour {
         // return if I am not a hunter player
         if (!isActive || !isLocalPlayer)
             return;
+
+        // return if game is over
+        if (timer.GameOver()) {
+            GetComponent<PlayerController>().enabled = false;
+            UIText.text = "Game Over!";
+            return;
+        }
 
         // time counter: can only shoot when a certain amount of time (FireRate) has passed
         timeCounter += Time.deltaTime;
