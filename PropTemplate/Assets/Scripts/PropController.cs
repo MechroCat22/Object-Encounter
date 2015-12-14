@@ -24,6 +24,10 @@ public class PropController : NetworkBehaviour {
 
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
+    private AudioSource playerAudio;
+    public AudioClip damageSound;
+    public AudioClip deathSound;
+    public AudioClip respawnSound;
 
     [SyncVar]
     private bool isActive;
@@ -47,6 +51,9 @@ public class PropController : NetworkBehaviour {
         // hide and lock the cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        // Get Audio Source
+        playerAudio = GetComponent<AudioSource>();
 
         // get necessary references
         graphics = transform.Find("Graphics").gameObject;
@@ -266,7 +273,7 @@ public class PropController : NetworkBehaviour {
         // already dead: do nothing
         if (health <= 0)
             return;
-
+        playerAudio.PlayOneShot(damageSound, 1f);
         health -= damage;
         if (health <= 0) {
             health = 0;
@@ -275,6 +282,7 @@ public class PropController : NetworkBehaviour {
 
     // called on death, only local player
     private void DieLocal() {
+        playerAudio.PlayOneShot(deathSound, 1f);
         GetComponent<PlayerController>().enabled = false;
         StartCoroutine(WaitRespawn(5));
     }
@@ -299,6 +307,7 @@ public class PropController : NetworkBehaviour {
 
     // called on respawn, local player
     private void RespawnLocal() {
+        playerAudio.PlayOneShot(respawnSound, 1f);
         GetComponent<PlayerController>().enabled = true;
     }
 

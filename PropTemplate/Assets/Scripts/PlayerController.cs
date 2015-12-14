@@ -10,12 +10,19 @@ public class PlayerController : MonoBehaviour {
     private float sprintMultiplier = 2f;
     private bool isFalling = false;
     private float finalSpeed = 5f;
+    
+    private AudioSource playerAudio;
+
+    //Player sounds - LOCAL ONLY
+    public AudioClip jumpSound;
+    public AudioClip footSteps;
 
     private PlayerMotor motor;
 
     void Start ()
     {
         motor = GetComponent<PlayerMotor>();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     void Update ()
@@ -43,6 +50,7 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetButtonDown("Jump") && !isFalling)
         {
             isFalling = true;
+            playerAudio.PlayOneShot(jumpSound, 1f);
             motor.Jump();
         }
 
