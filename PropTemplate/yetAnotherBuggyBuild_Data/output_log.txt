@@ -16,38 +16,19 @@ Platform assembly: C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemp
 Loading C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\System.Core.dll (this message is harmless)
-- Completed reload, in  0.048 seconds
+- Completed reload, in  0.040 seconds
 desktop: 1920x1080 144Hz; virtual: 5760x1080 at -1920,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
 Platform assembly: C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\System.dll (this message is harmless)
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 111c -> priority: 1 
-  Thread -> id: 2064 -> priority: 1 
+  Thread -> id: 16f4 -> priority: 1 
+  Thread -> id: 26ac -> priority: 1 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 20.987900 ms
+UnloadTime: 21.153200 ms
 
-Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 39185.
-Total: 6.125188 ms (FindLiveObjects: 1.877111 ms CreateObjectMapping: 0.629897 ms MarkObjects: 3.562299 ms  DeleteObjects: 0.055002 ms)
-
-Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:1234}
-UNet Client Disconnect Error: Timeout
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
-
-Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 12.796893 ms
-Multiple NetworkManagers detected in the scene. Only one NetworkManager can exist at a time. The duplicate NetworkManager will not be used.
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
-
-
-Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 39341.
-Total: 7.128109 ms (FindLiveObjects: 2.704199 ms CreateObjectMapping: 0.378582 ms MarkObjects: 3.946440 ms  DeleteObjects: 0.098595 ms)
+Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 39187.
+Total: 6.024838 ms (FindLiveObjects: 1.428606 ms CreateObjectMapping: 0.554707 ms MarkObjects: 3.989740 ms  DeleteObjects: 0.051199 ms)
 

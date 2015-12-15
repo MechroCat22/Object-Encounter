@@ -28,6 +28,8 @@ public class PropController : NetworkBehaviour {
     public AudioClip damageSound;
     public AudioClip deathSound;
     public AudioClip respawnSound;
+    public AudioClip objChangeSound;
+    public AudioClip doorSound;
 
     [SyncVar]
     private bool isActive;
@@ -155,6 +157,7 @@ public class PropController : NetworkBehaviour {
                 UIText.text = "Press \"Fire2\" to open/close the door";
                 // if Fire1 down, open/close that door
                 if (Input.GetButtonDown("Fire2")) {
+                    GetComponent<AudioSource>().PlayOneShot(doorSound, 1f);
                     doorController.CmdMoveDoor(obj);
                 }
             }
@@ -244,6 +247,7 @@ public class PropController : NetworkBehaviour {
 
     // update the model who turned into a prop in all clients
     public void UpdateModel(GameObject prop) {
+        playerAudio.PlayOneShot(objChangeSound, 1f);
         Mesh targetMesh = prop.GetComponent<MeshFilter>().mesh;
         // Since the mesh is to be changed, make the rigid body sleep and adjust the height
         rigidBody.Sleep();

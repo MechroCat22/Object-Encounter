@@ -12,6 +12,7 @@ public class HunterController : NetworkBehaviour {
     public int Damage = 34;
     public float ShootDistance = 100f;
     public float InteractDistance = 10f;
+    public AudioClip doorSound;
 
     private float timeCounter = 0;
 
@@ -76,6 +77,7 @@ public class HunterController : NetworkBehaviour {
             else if (obj.tag.Equals("Door") && objectHit.distance < InteractDistance) {
                 UIText.text = "Press \"Fire2\" to open/close the door"; 
                 if (Input.GetButtonDown("Fire2")) {
+                    GetComponent<AudioSource>().PlayOneShot(doorSound, 1f);
                     doorController.CmdMoveDoor(obj);
                 }
             }
