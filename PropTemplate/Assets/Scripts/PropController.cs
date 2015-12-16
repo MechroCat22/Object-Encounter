@@ -30,6 +30,7 @@ public class PropController : NetworkBehaviour {
     public AudioClip respawnSound;
     public AudioClip objChangeSound;
     public AudioClip doorSound;
+    private bool tookDamage = false;
 
     [SyncVar]
     private bool isActive;
@@ -115,6 +116,11 @@ public class PropController : NetworkBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (tookDamage)
+        {
+            playerAudio.PlayOneShot(damageSound, 2f);
+            tookDamage = false;
+        }
         // only do the following things on local player
         if (!isLocalPlayer)
             return;
@@ -157,16 +163,16 @@ public class PropController : NetworkBehaviour {
                 UIText.text = "Press \"Fire2\" to open/close the door";
                 // if Fire1 down, open/close that door
                 if (Input.GetButtonDown("Fire2")) {
-                    GetComponent<AudioSource>().PlayOneShot(doorSound, 1f);
+                    GetComponent<AudioSource>().PlayOneShot(doorSound, 2f);
                     doorController.CmdMoveDoor(obj);
                 }
             }
             else {
-                UIText.text = "Test";
+                UIText.text = "Health: " + health;
             }
         }
         else {
-            UIText.text = "Test";
+            UIText.text = "Health: " + health;
         }
     }
 
@@ -274,6 +280,7 @@ public class PropController : NetworkBehaviour {
 
     // should be called by the hunter who shot me
     public void TakeDamage(int damage) {
+        tookDamage = true;
         // already dead: do nothing
         if (health <= 0)
             return;

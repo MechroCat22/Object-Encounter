@@ -46,11 +46,11 @@ public class PlayerController : MonoBehaviour {
         // Final movement vector
         Vector3 _velocity = (_movHorizontal + _movVertical).normalized * finalSpeed;
 
-        //if the player is sprinting
+        //if the player is jumping
         if (Input.GetButtonDown("Jump") && !isFalling)
         {
             isFalling = true;
-            playerAudio.PlayOneShot(jumpSound, 1f);
+            playerAudio.PlayOneShot(jumpSound, 0.6f);
             motor.Jump();
         }
 
