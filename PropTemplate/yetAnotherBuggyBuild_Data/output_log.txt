@@ -17,20 +17,28 @@ Loading C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAno
 Platform assembly: C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\System.Core.dll (this message is harmless)
-- Completed reload, in  0.040 seconds
+- Completed reload, in  0.047 seconds
 desktop: 1920x1080 144Hz; virtual: 5760x1080 at -1920,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
 Platform assembly: C:\Users\MechroCat22\Documents\GitHub\VR-Object-Hunt\PropTemplate\yetAnotherBuggyBuild_Data\Managed\System.dll (this message is harmless)
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 28e8 -> priority: 1 
-  Thread -> id: 2784 -> priority: 1 
+  Thread -> id: 212c -> priority: 1 
+  Thread -> id: 2818 -> priority: 1 
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 19.412825 ms
+UnloadTime: 18.408730 ms
 
-Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 39187.
-Total: 5.535111 ms (FindLiveObjects: 1.861616 ms CreateObjectMapping: 0.487127 ms MarkObjects: 3.132535 ms  DeleteObjects: 0.053247 ms)
+Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 39183.
+Total: 5.395848 ms (FindLiveObjects: 1.504681 ms CreateObjectMapping: 0.498244 ms MarkObjects: 3.335285 ms  DeleteObjects: 0.056758 ms)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
 
 Client sent: 366
  
@@ -56,6 +64,18 @@ Client received: 366 0
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
 
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
 Client sent: 366
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
@@ -65,6 +85,82 @@ Client sent: 366
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
 
 Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client sent: 366
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
+
+Client received: 366 0
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 64)
 
