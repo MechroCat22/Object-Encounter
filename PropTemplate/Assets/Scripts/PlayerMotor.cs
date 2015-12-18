@@ -38,7 +38,7 @@ public class PlayerMotor : MonoBehaviour {
 
     public void Jump()
     {
-        rb.AddForce(Vector3.up * 300);
+        rb.AddForce(Vector3.up * 600);
     }
 
     // Run every physics iteration

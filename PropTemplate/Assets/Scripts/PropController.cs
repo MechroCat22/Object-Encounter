@@ -77,12 +77,17 @@ public class PropController : NetworkBehaviour {
         
         // set initial camera position
         Mesh mesh = playerModel.GetComponent<MeshFilter>().mesh;
-        cam.transform.localPosition = new Vector3(0, mesh.bounds.max.y * 0.9f, mesh.bounds.max.z);
+        cam.transform.localPosition = new Vector3(0, mesh.bounds.min.y + mesh.bounds.size.y* 0.9f, 0);
         //Debug.Log("bounds:" + mesh.bounds.max.y);
 
         // disable UI for other players
         if (!isLocalPlayer) {
             cam.transform.Find("Canvas").gameObject.SetActive(false);
+        }
+
+        // ignore local player model
+        if (isLocalPlayer) {
+            playerModel.GetComponent<MeshRenderer>().enabled = false;
         }
 
         // setup handlers
@@ -269,13 +274,16 @@ public class PropController : NetworkBehaviour {
         playerModel = Instantiate(prop, graphics.transform.position, graphics.transform.rotation) as GameObject;
         playerModel.transform.parent = graphics.transform;
         playerModel.tag = "Player";
+        if (isLocalPlayer) {
+            playerModel.GetComponent<MeshRenderer>().enabled = false;
+        }
         MeshCollider meshCollider = playerModel.GetComponent<MeshCollider>();
         if (meshCollider != null) {
             meshCollider.convex = true; // non-kinematic rigid body can only have a convex mesh collider
         }
 
         // also adjust the camera to the front face of the new model
-        cam.transform.localPosition = new Vector3(0, 0, targetMesh.bounds.max.z);
+        cam.transform.localPosition = new Vector3(0, targetMesh.bounds.min.y + targetMesh.bounds.size.y * 0.9f, 0);
     }
 
     // should be called by the hunter who shot me
@@ -329,8 +337,10 @@ public class PropController : NetworkBehaviour {
         Mesh targetMesh = DefaultModel.GetComponent<MeshFilter>().sharedMesh;
         // transport the player to the spawn point
         rigidBody.Sleep();
-        rigidBody.position = spawnPosition;
-        rigidBody.rotation = spawnRotation;
+        if (isServer) {
+            rigidBody.position = spawnPosition;
+            rigidBody.rotation = spawnRotation;
+        }
 
         // change the mesh
         //playerModel.GetComponent<MeshFilter>().mesh = targetMesh;
@@ -340,13 +350,16 @@ public class PropController : NetworkBehaviour {
         playerModel = Instantiate(DefaultModel, graphics.transform.position, graphics.transform.rotation) as GameObject;
         playerModel.transform.parent = graphics.transform;
         playerModel.tag = "Player";
+        if (isLocalPlayer) {
+            playerModel.GetComponent<MeshRenderer>().enabled = false;
+        }
         MeshCollider meshCollider = playerModel.GetComponent<MeshCollider>();
         if (meshCollider != null) {
             meshCollider.convex = true; // non-kinematic rigid body can only have a convex mesh collider
         }
 
         // also adjust the camera to the front face of the new model
-        cam.transform.localPosition = new Vector3(0, 0, targetMesh.bounds.max.z);
+        cam.transform.localPosition = new Vector3(0, targetMesh.bounds.min.y + targetMesh.bounds.size.y * 0.9f, 0);
 
         // SECOND PART:
         // reset health the dead status
