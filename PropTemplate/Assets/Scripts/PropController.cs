@@ -24,6 +24,7 @@ public class PropController : NetworkBehaviour {
 
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
+
     private AudioSource playerAudio;
     public AudioClip damageSound;
     public AudioClip deathSound;
@@ -337,7 +338,7 @@ public class PropController : NetworkBehaviour {
         Mesh targetMesh = DefaultModel.GetComponent<MeshFilter>().sharedMesh;
         // transport the player to the spawn point
         rigidBody.Sleep();
-        if (isServer) {
+        if (isLocalPlayer && hasAuthority) {
             rigidBody.position = spawnPosition;
             rigidBody.rotation = spawnRotation;
         }
@@ -364,9 +365,9 @@ public class PropController : NetworkBehaviour {
         // SECOND PART:
         // reset health the dead status
         // ONLY ON SERVER!
-        if (!isServer)
-            return;
-        health = MaxHealth;
-        dead = false;
+        if (isServer) {
+            health = MaxHealth;
+            dead = false;
+        }
     }
 }

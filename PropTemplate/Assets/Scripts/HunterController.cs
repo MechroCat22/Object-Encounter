@@ -24,6 +24,10 @@ public class HunterController : NetworkBehaviour {
     private DoorController doorController;
     private Timer timer;
 
+    private Vector3 spawnPosition;
+    private Quaternion spawnRotation;
+    private Rigidbody rigidBody;
+
     // Use this for initialization
     void Start() {
         myCamera = transform.Find("Camera").GetComponent<Camera>();
@@ -33,6 +37,11 @@ public class HunterController : NetworkBehaviour {
         psys = ps.GetComponent<ParticleSystem>();
         doorController = GetComponent<DoorController>();
         timer = GameObject.Find("Timer").GetComponent<Timer>();
+
+        // record the spawn place, used to respawn
+        spawnPosition = transform.position;
+        spawnRotation = transform.rotation;
+        rigidBody = GetComponent<Rigidbody>();
 
         // TEMPORARY solution: the server is the hunter
         if (isServer) {
