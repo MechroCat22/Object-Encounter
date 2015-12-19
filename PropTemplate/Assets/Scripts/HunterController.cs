@@ -12,6 +12,7 @@ public class HunterController : NetworkBehaviour {
     public int Damage = 34;
     public float ShootDistance = 100f;
     public float InteractDistance = 10f;
+    public int WaitTime = 15;
     public AudioClip doorSound;
 
     private float timeCounter = 0;
@@ -27,6 +28,8 @@ public class HunterController : NetworkBehaviour {
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
     private Rigidbody rigidBody;
+
+    private bool waiting;
 
     // Use this for initialization
     void Start() {
@@ -55,6 +58,12 @@ public class HunterController : NetworkBehaviour {
         if (!isActive) {
             gun.gameObject.SetActive(false);
         }
+
+        // wait at the beginning of the game
+        if (isActive) {
+            waiting = true;
+            GetComponent<PlayerController>().enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -62,6 +71,20 @@ public class HunterController : NetworkBehaviour {
         // return if I am not a hunter player
         if (!isActive || !isLocalPlayer)
             return;
+
+        // waiting for some time at the beginning of the game
+        // such that the hiders have enough time to hide
+        if (waiting) {
+            int secondsElapsed = (int)Time.timeSinceLevelLoad;
+            if (secondsElapsed < 15) {
+                UIText.text = "Wait for " + (15 - secondsElapsed) + " second(s)";
+                return;
+            }
+            else {
+                waiting = false;
+                GetComponent<PlayerController>().enabled = true;
+            }
+        }
 
         // return if game is over
         if (timer.GameOver()) {
