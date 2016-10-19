@@ -7,10 +7,12 @@ using System.Collections;
 public class PropController : NetworkBehaviour {
 
     public GameObject DefaultModel;
-    public Text UIText;
+	private Text UIText;
+	public Text firstPersonText;
+	public Text thirdPersonText;
     public int MaxHealth = 100;
     public float InteractDistance = 10f;
-
+	public LayerMask ignorePlayer;
     private GameObject playerModel;
     private GameObject graphics;
     private GameObject cam;
@@ -52,6 +54,15 @@ public class PropController : NetworkBehaviour {
 
     // Use this for initialization
     void Start() {
+		string whichCamera;
+		if (isServer) {
+			whichCamera = "FirstPerson";
+			UIText = firstPersonText;
+			//UIText = gameObject.transform.Find ("ThirdPerson").Find ("Canvas").Find ("MessageText").GetComponent<Text> ();
+		} else {
+			whichCamera = "ThirdPerson";
+			UIText = thirdPersonText;
+		}
         // hide and lock the cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -62,7 +73,7 @@ public class PropController : NetworkBehaviour {
         // get necessary references
         graphics = transform.Find("Graphics").gameObject;
         playerModel = graphics.transform.Find("Player Model").gameObject;
-        cam = transform.Find("Camera").gameObject;
+        cam = transform.Find(whichCamera).gameObject;
         myCamera = cam.GetComponent<Camera>();
         rigidBody = GetComponent<Rigidbody>();
         doorController = GetComponent<DoorController>();
@@ -77,8 +88,8 @@ public class PropController : NetworkBehaviour {
         spawnRotation = transform.rotation;
         
         // set initial camera position
-        Mesh mesh = playerModel.GetComponent<MeshFilter>().mesh;
-        cam.transform.localPosition = new Vector3(0, mesh.bounds.min.y + mesh.bounds.size.y* 0.9f, 0);
+        //Mesh mesh = playerModel.GetComponent<MeshFilter>().mesh;
+        //cam.transform.localPosition = new Vector3(0, mesh.bounds.min.y + mesh.bounds.size.y* 0.9f, 0);
         //Debug.Log("bounds:" + mesh.bounds.max.y);
 
         // disable UI for other players
@@ -87,7 +98,7 @@ public class PropController : NetworkBehaviour {
         }
 
         // ignore local player model
-        if (isLocalPlayer) {
+        if (isLocalPlayer && isServer) {
             playerModel.GetComponent<MeshRenderer>().enabled = false;
         }
 
@@ -137,7 +148,7 @@ public class PropController : NetworkBehaviour {
 
         // return if game is over
         if (timer.GameOver()) {
-            GetComponent<PlayerController>().enabled = false;
+            GetComponent<myPlayerController>().enabled = false;
             UIText.text = "Game Over!";
             return;
         }
@@ -155,7 +166,7 @@ public class PropController : NetworkBehaviour {
         // the aim is locked at the center of the screen
         Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
         RaycastHit objectHit;
-        if (Physics.Raycast(camRay, out objectHit, InteractDistance)) {
+		if (Physics.Raycast(camRay, out objectHit, InteractDistance, ignorePlayer)) {
             GameObject obj = objectHit.transform.gameObject;
             // aiming at a prop
             if (obj.tag.Equals("Prop")) {
@@ -275,16 +286,17 @@ public class PropController : NetworkBehaviour {
         playerModel = Instantiate(prop, graphics.transform.position, graphics.transform.rotation) as GameObject;
         playerModel.transform.parent = graphics.transform;
         playerModel.tag = "Player";
-        if (isLocalPlayer) {
-            playerModel.GetComponent<MeshRenderer>().enabled = false;
-        }
+		playerModel.layer = LayerMask.NameToLayer("Player");
+        //if (isLocalPlayer) {
+        //    playerModel.GetComponent<MeshRenderer>().enabled = false;
+        //}
         MeshCollider meshCollider = playerModel.GetComponent<MeshCollider>();
         if (meshCollider != null) {
             meshCollider.convex = true; // non-kinematic rigid body can only have a convex mesh collider
         }
 
         // also adjust the camera to the front face of the new model
-        cam.transform.localPosition = new Vector3(0, targetMesh.bounds.min.y + targetMesh.bounds.size.y * 0.9f, 0);
+        //cam.transform.localPosition = new Vector3(0, targetMesh.bounds.min.y + targetMesh.bounds.size.y * 0.9f, 0);
     }
 
     // should be called by the hunter who shot me
@@ -303,7 +315,7 @@ public class PropController : NetworkBehaviour {
     // called on death, only local player
     private void DieLocal() {
         playerAudio.PlayOneShot(deathSound, 1f);
-        GetComponent<PlayerController>().enabled = false;
+        GetComponent<myPlayerController>().enabled = false;
         StartCoroutine(WaitRespawn(5));
     }
 
@@ -328,7 +340,7 @@ public class PropController : NetworkBehaviour {
     // called on respawn, local player
     private void RespawnLocal() {
         playerAudio.PlayOneShot(respawnSound, 1f);
-        GetComponent<PlayerController>().enabled = true;
+        GetComponent<myPlayerController>().enabled = true;
     }
 
     // called on respawn, every player
@@ -351,16 +363,16 @@ public class PropController : NetworkBehaviour {
         playerModel = Instantiate(DefaultModel, graphics.transform.position, graphics.transform.rotation) as GameObject;
         playerModel.transform.parent = graphics.transform;
         playerModel.tag = "Player";
-        if (isLocalPlayer) {
-            playerModel.GetComponent<MeshRenderer>().enabled = false;
-        }
+        //if (isLocalPlayer) {
+            //playerModel.GetComponent<MeshRenderer>().enabled = false;
+        //}
         MeshCollider meshCollider = playerModel.GetComponent<MeshCollider>();
         if (meshCollider != null) {
             meshCollider.convex = true; // non-kinematic rigid body can only have a convex mesh collider
         }
 
         // also adjust the camera to the front face of the new model
-        cam.transform.localPosition = new Vector3(0, targetMesh.bounds.min.y + targetMesh.bounds.size.y * 0.9f, 0);
+        //cam.transform.localPosition = new Vector3(0, targetMesh.bounds.min.y + targetMesh.bounds.size.y * 0.9f, 0);
 
         // SECOND PART:
         // reset health the dead status

@@ -6,12 +6,19 @@ using System.Collections;
 
 public class HunterController : NetworkBehaviour {
 
-
-    public Text UIText;
-    public float FireRate = 0.3f;
-    public int Damage = 34;
-    public float ShootDistance = 100f;
-    public float InteractDistance = 10f;
+	//[SerializeField]
+	private SteamVR_TrackedObject leftTrackedObject;
+	private SteamVR_Controller.Device leftController;
+	//[SerializeField]
+	private SteamVR_TrackedObject rightTrackedObject;
+	private SteamVR_Controller.Device rightController;
+	private Text UIText;
+	public Text firstPersonText;
+	public Text thirdPersonText;
+    public float FireRate = 0.03f;
+    public int Damage = 50;
+    public float ShootDistance = 200f;
+    public float InteractDistance = 100f;
     public int WaitTime = 15;
     public AudioClip doorSound;
 
@@ -33,7 +40,21 @@ public class HunterController : NetworkBehaviour {
 
     // Use this for initialization
     void Start() {
-        myCamera = transform.Find("Camera").GetComponent<Camera>();
+
+		if (isServer) {
+			leftTrackedObject = this.transform.Find("[CameraRig]").Find("Controller (left)").GetComponent<SteamVR_TrackedObject>();
+			rightTrackedObject = this.transform.Find("[CameraRig]").Find("Controller (right)").GetComponent<SteamVR_TrackedObject>();
+		}
+		string whichCamera;
+		if (isServer) {
+			whichCamera = "FirstPerson";
+			UIText = firstPersonText;
+			//UIText = gameObject.transform.Find ("ThirdPerson").Find ("Canvas").Find ("MessageText").GetComponent<Text> ();
+		} else {
+			whichCamera = "ThirdPerson";
+			UIText = thirdPersonText;
+		}
+		myCamera = transform.Find(whichCamera).GetComponent<Camera>();
         Transform gun = myCamera.transform.Find("Gun");
         Transform psh = gun.Find("Shot Effect");
         Transform ps = psh.Find("Particle System");
@@ -50,7 +71,8 @@ public class HunterController : NetworkBehaviour {
         if (isServer) {
             if (isLocalPlayer) {
                 isActive = true;
-            }
+				this.transform.Find ("[CameraRig]").gameObject.SetActive (true);
+			}
             else {
                 isActive = false;
             }
@@ -62,8 +84,10 @@ public class HunterController : NetworkBehaviour {
         // wait at the beginning of the game
         if (isActive) {
             waiting = true;
-            GetComponent<PlayerController>().enabled = false;
+            GetComponent<myViveController>().enabled = false;
         }
+
+		// Set up Vive?
     }
 
     // Update is called once per frame
@@ -71,7 +95,33 @@ public class HunterController : NetworkBehaviour {
         // return if I am not a hunter player
         if (!isActive || !isLocalPlayer)
             return;
+		bool leftActive = true;
+		bool leftTriggerPulled = false;
+		bool rightTriggerPulled = false;
+		bool leftGripPressed = false;
+		bool rightGripPressed = false;
+		// Setup Vive Controllers
+		try {
+			leftController = SteamVR_Controller.Input((int)leftTrackedObject.index);
+			leftTriggerPulled = leftController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger);
+			leftGripPressed = leftController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip);
+		} catch (System.Exception) {
+			//Just roll with it
+			leftActive = false;
+		}
 
+		try {
+			rightController = SteamVR_Controller.Input((int)rightTrackedObject.index);
+			rightTriggerPulled = rightController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger);
+			rightGripPressed = rightController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip);
+		} catch (System.Exception) {
+			if (!leftActive) {
+				Debug.Log ("No controllers Connected");
+			}
+		}
+			
+		bool triggersPulled = (leftTriggerPulled || rightTriggerPulled);
+		bool gripsPressed = (leftGripPressed || rightGripPressed);
         // waiting for some time at the beginning of the game
         // such that the hiders have enough time to hide
         if (waiting) {
@@ -82,13 +132,13 @@ public class HunterController : NetworkBehaviour {
             }
             else {
                 waiting = false;
-                GetComponent<PlayerController>().enabled = true;
+                GetComponent<myViveController>().enabled = true;
             }
         }
 
         // return if game is over
         if (timer.GameOver()) {
-            GetComponent<PlayerController>().enabled = false;
+            GetComponent<myPlayerController>().enabled = false;
             UIText.text = "Game Over!";
             return;
         }
@@ -97,46 +147,98 @@ public class HunterController : NetworkBehaviour {
         timeCounter += Time.deltaTime;
 
         // the aim is locked at the center of the screen
-        Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-        RaycastHit objectHit;
-        GameObject obj = null;
-        if (Physics.Raycast(camRay, out objectHit, ShootDistance)) {
-            obj = objectHit.transform.gameObject;
-            // if aiming at a player
-            if (obj.tag.Equals("Player")) {
-                
-            }
-            else if (obj.tag.Equals("Door") && objectHit.distance < InteractDistance) {
-                UIText.text = "Press \"Fire2\" to open/close the door"; 
-                if (Input.GetButtonDown("Fire2")) {
-                    GetComponent<AudioSource>().PlayOneShot(doorSound, 2f);
-                    doorController.CmdMoveDoor(obj);
-                }
-            }
-            else {
-                UIText.text = "";
-            }
-        }
-        else {
-            UIText.text = "";
-        }
+		if (isServer) {
+			Ray leftControllerRay = new Ray (leftTrackedObject.transform.position, leftTrackedObject.transform.forward);
+			Ray rightControllerRay = new Ray (rightTrackedObject.transform.position, rightTrackedObject.transform.forward);
+			RaycastHit objectHit;
+			GameObject obj = null;
+			if (Physics.Raycast(leftControllerRay, out objectHit, ShootDistance) || Physics.Raycast(rightControllerRay, out objectHit, ShootDistance)) {
+				obj = objectHit.transform.gameObject;
+				// if aiming at a player
+				if (obj.tag.Equals("Player")) {
 
-        if (Input.GetButtonDown("Fire1") && timeCounter > FireRate) {
-            // reset time counter
-            timeCounter = 0.0f;
+				}
+				else if (obj.tag.Equals("Door") && objectHit.distance < InteractDistance) {
+					UIText.text = "Press the Grip button to open/close the door"; 
 
-            // play the muzzle flash effect
-            psys.Play();
-           
-            // play the gun sound effect
-            GetComponent<AudioSource>().Play();
-            
+					// VIVE REIMPLEMENT
+					if (gripsPressed) {
+						GetComponent<AudioSource>().PlayOneShot(doorSound, 2f);
+						doorController.CmdMoveDoor(obj);
+					}
+				}
+				else {
+					UIText.text = "";
+				}
+			}
+			else {
+				UIText.text = "";
+			}
 
-            if (obj != null && obj.tag.Equals("Player")) {
-                GameObject playerHit = obj;
-                playerHit.GetComponent<PropController>().TakeDamage(Damage);
-                Debug.Log("Hit: " + playerHit);
-            }
-        }
+			// VIVE REIMPLEMENT
+			if (triggersPulled && timeCounter > FireRate) {
+				// reset time counter
+				timeCounter = 0.0f;
+
+				// play the muzzle flash effect
+				//psys.Play();
+
+				// play the gun sound effect
+				GetComponent<AudioSource>().Play();
+
+
+				if (obj != null && obj.tag.Equals("Player")) {
+					GameObject playerHit = obj;
+					playerHit.GetComponent<PropController>().TakeDamage(Damage);
+					Debug.Log("Hit: " + playerHit);
+				}
+			}
+		} else {
+			Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+			RaycastHit objectHit;
+			GameObject obj = null;
+			if (Physics.Raycast(camRay, out objectHit, ShootDistance)) {
+				obj = objectHit.transform.gameObject;
+				// if aiming at a player
+				if (obj.tag.Equals("Player")) {
+
+				}
+				else if (obj.tag.Equals("Door") && objectHit.distance < InteractDistance) {
+					UIText.text = "Press the Grip button to open/close the door"; 
+
+					// VIVE REIMPLEMENT
+					if (gripsPressed) {
+						GetComponent<AudioSource>().PlayOneShot(doorSound, 2f);
+						doorController.CmdMoveDoor(obj);
+					}
+				}
+				else {
+					UIText.text = "";
+				}
+			}
+			else {
+				UIText.text = "";
+			}
+
+			// VIVE REIMPLEMENT
+			if (triggersPulled && timeCounter > FireRate) {
+				// reset time counter
+				timeCounter = 0.0f;
+
+				// play the muzzle flash effect
+				//psys.Play();
+
+				// play the gun sound effect
+				GetComponent<AudioSource>().Play();
+
+
+				if (obj != null && obj.tag.Equals("Player")) {
+					GameObject playerHit = obj;
+					playerHit.GetComponent<PropController>().TakeDamage(Damage);
+					Debug.Log("Hit: " + playerHit);
+				}
+			}
+		}
+        
     }
 }
