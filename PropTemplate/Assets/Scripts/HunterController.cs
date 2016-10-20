@@ -16,9 +16,9 @@ public class HunterController : NetworkBehaviour {
 	public Text firstPersonText;
 	public Text thirdPersonText;
     public float FireRate = 0.03f;
-    public int Damage = 50;
-    public float ShootDistance = 200f;
-    public float InteractDistance = 100f;
+    public int Damage = 100;
+    public float ShootDistance = 300f;
+    public float InteractDistance = 150f;
     public int WaitTime = 15;
     public AudioClip doorSound;
 
@@ -38,17 +38,20 @@ public class HunterController : NetworkBehaviour {
 
     private bool waiting;
 
+
+
     // Use this for initialization
     void Start() {
 
-		if (isServer) {
+		if (isServer && isLocalPlayer) {
 			leftTrackedObject = this.transform.Find("[CameraRig]").Find("Controller (left)").GetComponent<SteamVR_TrackedObject>();
 			rightTrackedObject = this.transform.Find("[CameraRig]").Find("Controller (right)").GetComponent<SteamVR_TrackedObject>();
 		}
 		string whichCamera;
-		if (isServer) {
+		if (isServer && isLocalPlayer) {
 			whichCamera = "FirstPerson";
 			UIText = firstPersonText;
+			//this.tag = "Hunter";
 			//UIText = gameObject.transform.Find ("ThirdPerson").Find ("Canvas").Find ("MessageText").GetComponent<Text> ();
 		} else {
 			whichCamera = "ThirdPerson";
@@ -146,7 +149,6 @@ public class HunterController : NetworkBehaviour {
         // time counter: can only shoot when a certain amount of time (FireRate) has passed
         timeCounter += Time.deltaTime;
 
-        // the aim is locked at the center of the screen
 		if (isServer) {
 			Ray leftControllerRay = new Ray (leftTrackedObject.transform.position, leftTrackedObject.transform.forward);
 			Ray rightControllerRay = new Ray (rightTrackedObject.transform.position, rightTrackedObject.transform.forward);
@@ -159,10 +161,10 @@ public class HunterController : NetworkBehaviour {
 
 				}
 				else if (obj.tag.Equals("Door") && objectHit.distance < InteractDistance) {
-					UIText.text = "Press the Grip button to open/close the door"; 
+					UIText.text = "Press the trigger button to open/close the door"; 
 
 					// VIVE REIMPLEMENT
-					if (gripsPressed) {
+					if (triggersPulled) {
 						GetComponent<AudioSource>().PlayOneShot(doorSound, 2f);
 						doorController.CmdMoveDoor(obj);
 					}
@@ -207,7 +209,7 @@ public class HunterController : NetworkBehaviour {
 					UIText.text = "Press the Grip button to open/close the door"; 
 
 					// VIVE REIMPLEMENT
-					if (gripsPressed) {
+					if (triggersPulled) {
 						GetComponent<AudioSource>().PlayOneShot(doorSound, 2f);
 						doorController.CmdMoveDoor(obj);
 					}

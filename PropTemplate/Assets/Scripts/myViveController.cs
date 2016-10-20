@@ -11,7 +11,7 @@ public class myViveController : NetworkBehaviour {
 	private SteamVR_TrackedObject rightTrackedObject;
 	private SteamVR_Controller.Device rightController;
 	[SerializeField]
-	private float speed = 25f;
+	private float speed = 50f;
 	[SerializeField]
 	private float lookSensitivity = 3f;
 	private float sprintMultiplier = 2f;
@@ -53,9 +53,12 @@ public class myViveController : NetworkBehaviour {
 		// Setting up the Vive controllers
 		try {
 			leftController = SteamVR_Controller.Input((int)leftTrackedObject.index);
-			// Get the left inputs
-			xLeftInput = leftController.GetAxis().x;
-			zLeftInput = leftController.GetAxis ().y;
+			if (leftController.GetPress(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad)) {
+				// Get the left inputs
+				xLeftInput = leftController.GetAxis().x;
+				zLeftInput = leftController.GetAxis ().y;
+			}
+	
 		} catch (System.Exception) {
 			//Just roll with it
 			leftActive = false;
@@ -63,9 +66,11 @@ public class myViveController : NetworkBehaviour {
 
 		try {
 			rightController = SteamVR_Controller.Input((int)rightTrackedObject.index);
-			// Get the left inputs
-			xRightInput = rightController.GetAxis().x;
-			zRightInput = rightController.GetAxis ().y;
+			if (rightController.GetPress(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad)) {
+				// Get the left inputs
+				xRightInput = rightController.GetAxis().x;
+				zRightInput = rightController.GetAxis ().y;
+			}
 		} catch (System.Exception) {
 			if (!leftActive) {
 				Debug.Log ("No controllers Connected");

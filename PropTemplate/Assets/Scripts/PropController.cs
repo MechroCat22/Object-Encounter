@@ -10,7 +10,7 @@ public class PropController : NetworkBehaviour {
 	private Text UIText;
 	public Text firstPersonText;
 	public Text thirdPersonText;
-    public int MaxHealth = 100;
+    public int MaxHealth = 1;
     public float InteractDistance = 10f;
 	public LayerMask ignorePlayer;
     private GameObject playerModel;
@@ -44,16 +44,27 @@ public class PropController : NetworkBehaviour {
     private bool dead;
 
     public class PropMessage : MessageBase {
-        public enum Type { Change, Death, Respawn };
+        public enum Type { Change, Death, Respawn, Tag };
         public static short TypeId = 555;
         public Type msgType;
         public NetworkInstanceId player;
         public NetworkInstanceId prop;
     }
 
-
+	void Awake() {
+		
+	}
     // Use this for initialization
     void Start() {
+		if (isServer && isLocalPlayer) {
+			//Debug.Log ("I am a server" + this.name);
+			this.tag = "Hunter";
+			//PropMessage setupTag;
+			//NetworkIdentity playerIdtt = gameObject.GetComponent<NetworkIdentity>() as NetworkIdentity;
+			//setupTag.player = playerIdtt.netId;
+			SendPropMessageTag ();
+		}
+
 		string whichCamera;
 		if (isServer) {
 			whichCamera = "FirstPerson";
@@ -208,6 +219,14 @@ public class PropController : NetworkBehaviour {
         Debug.Log("Client sent: " + msg.player + " " + msg.prop);
     }
 
+	private void SendPropMessageTag() {
+		PropMessage msg = new PropMessage ();
+		NetworkIdentity playerIdtt = this.GetComponent<NetworkIdentity>() as NetworkIdentity;
+		msg.msgType = PropMessage.Type.Tag;
+		msg.player = playerIdtt.netId;
+		NetworkClient.allClients [0].Send (PropMessage.TypeId, msg);
+	}
+
     // send message when the player dies
     private void SendPropMessageDie() {
         NetworkIdentity playerIdtt = gameObject.GetComponent<NetworkIdentity>() as NetworkIdentity;
@@ -265,6 +284,11 @@ public class PropController : NetworkBehaviour {
                     playerDied.GetComponent<PropController>().RespawnClient();
                     break;
                 }
+			case PropMessage.Type.Tag: {
+					GameObject hunter = ClientScene.FindLocalObject(msg.player);
+					hunter.tag = "Hunter";
+					break;
+				}
         }
     }
 
