@@ -167,6 +167,7 @@ public class PropController : NetworkBehaviour {
         // return if game is over
         if (timer.GameOver()) {
             GetComponent<myPlayerController>().enabled = false;
+			GetComponent<PointCounter> ().stopCounting ();
             UIText.text = "Game Over!";
             return;
         }

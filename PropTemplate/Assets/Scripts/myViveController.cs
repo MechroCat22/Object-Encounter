@@ -11,7 +11,7 @@ public class myViveController : NetworkBehaviour {
 	private SteamVR_TrackedObject rightTrackedObject;
 	private SteamVR_Controller.Device rightController;
 	[SerializeField]
-	private float speed = 50f;
+	private float speed = 8f;
 	[SerializeField]
 	private float lookSensitivity = 3f;
 	private float sprintMultiplier = 2f;
@@ -51,8 +51,10 @@ public class myViveController : NetworkBehaviour {
 		float zRightInput = 0;
 		bool leftActive = true;
 		// Setting up the Vive controllers
+		bool leftGripPressed = false;
 		try {
 			leftController = SteamVR_Controller.Input((int)leftTrackedObject.index);
+			leftGripPressed = leftController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip);
 			if (leftController.GetPress(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad)) {
 				// Get the left inputs
 				xLeftInput = leftController.GetAxis().x;
@@ -63,9 +65,10 @@ public class myViveController : NetworkBehaviour {
 			//Just roll with it
 			leftActive = false;
 		}
-
+		bool rightGripPressed = false;
 		try {
 			rightController = SteamVR_Controller.Input((int)rightTrackedObject.index);
+			rightGripPressed = rightController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip);
 			if (rightController.GetPress(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad)) {
 				// Get the left inputs
 				xRightInput = rightController.GetAxis().x;
@@ -109,9 +112,9 @@ public class myViveController : NetworkBehaviour {
 
 		// Final movement vector
 		Vector3 _velocity = (_movHorizontal + _movVertical).normalized * finalSpeed;
-
+		bool gripsPressed = (leftGripPressed || rightGripPressed);
 		//if the player is jumping
-		if (Input.GetButtonDown("Jump") && !isFalling)
+		if (gripsPressed && !isFalling)
 		{
 			isFalling = true;
 			playerAudio.PlayOneShot(jumpSound, 0.6f);

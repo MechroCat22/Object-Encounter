@@ -143,6 +143,7 @@ public class HunterController : NetworkBehaviour {
         if (timer.GameOver()) {
             GetComponent<myPlayerController>().enabled = false;
             UIText.text = "Game Over!";
+			GetComponent<PointCounter> ().stopCounting ();
             return;
         }
 
@@ -187,11 +188,13 @@ public class HunterController : NetworkBehaviour {
 
 				// play the gun sound effect
 				GetComponent<AudioSource>().Play();
-
+				rightController.TriggerHapticPulse (1200);
 
 				if (obj != null && obj.tag.Equals("Player")) {
 					GameObject playerHit = obj;
 					playerHit.GetComponent<PropController>().TakeDamage(Damage);
+					this.gameObject.GetComponent<PointCounter> ().addKillPoints ();
+
 					Debug.Log("Hit: " + playerHit);
 				}
 			}
@@ -229,7 +232,7 @@ public class HunterController : NetworkBehaviour {
 
 				// play the muzzle flash effect
 				//psys.Play();
-
+				rightController.TriggerHapticPulse(700);
 				// play the gun sound effect
 				GetComponent<AudioSource>().Play();
 
@@ -237,7 +240,6 @@ public class HunterController : NetworkBehaviour {
 				if (obj != null && obj.tag.Equals("Player")) {
 					GameObject playerHit = obj;
 					playerHit.GetComponent<PropController>().TakeDamage(Damage);
-					this.gameObject.GetComponent<PointCounter> ().numPoints = 5;
 					Debug.Log("Hit: " + playerHit);
 				}
 			}

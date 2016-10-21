@@ -8,9 +8,9 @@ public class myPlayerController : NetworkBehaviour {
     private float speed = 8f;
     [SerializeField]
     private float lookSensitivity = 3f;
-    private float sprintMultiplier = 2f;
+    private float sprintMultiplier = 0.5f;
     private bool isFalling = false;
-    private float finalSpeed = 6f;
+    private float finalSpeed = 10f;
 	[SerializeField]
 	private Camera thirdPersonCam;
     private AudioSource playerAudio;
