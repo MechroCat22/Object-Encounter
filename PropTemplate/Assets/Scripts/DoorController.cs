@@ -16,6 +16,9 @@ public class DoorController : NetworkBehaviour {
 
     [Command]
     public void CmdMoveDoor(GameObject door) {
+		if (!door.tag.Equals("Door")) {
+			return;
+		}
         DoorMotor dm = door.GetComponent<DoorMotor>();
         dm.Move();
     }

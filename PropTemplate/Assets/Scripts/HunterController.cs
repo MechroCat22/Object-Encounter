@@ -7,8 +7,8 @@ using System.Collections;
 public class HunterController : NetworkBehaviour {
 
 	//[SerializeField]
-	private SteamVR_TrackedObject leftTrackedObject;
-	private SteamVR_Controller.Device leftController;
+	//private SteamVR_TrackedObject leftTrackedObject;
+	//private SteamVR_Controller.Device leftController;
 	//[SerializeField]
 	private SteamVR_TrackedObject rightTrackedObject;
 	private SteamVR_Controller.Device rightController;
@@ -17,7 +17,7 @@ public class HunterController : NetworkBehaviour {
 	public Text thirdPersonText;
     public float FireRate = 0.03f;
     public int Damage = 100;
-    public float ShootDistance = 300f;
+    public float ShootDistance = 500f;
     public float InteractDistance = 150f;
     public int WaitTime = 15;
     public AudioClip doorSound;
@@ -44,7 +44,7 @@ public class HunterController : NetworkBehaviour {
     void Start() {
 
 		if (isServer && isLocalPlayer) {
-			leftTrackedObject = this.transform.Find("[CameraRig]").Find("Controller (left)").GetComponent<SteamVR_TrackedObject>();
+			//leftTrackedObject = this.transform.Find("[CameraRig]").Find("Controller (left)").GetComponent<SteamVR_TrackedObject>();
 			rightTrackedObject = this.transform.Find("[CameraRig]").Find("Controller (right)").GetComponent<SteamVR_TrackedObject>();
 		}
 		string whichCamera;
@@ -104,23 +104,23 @@ public class HunterController : NetworkBehaviour {
 		bool leftGripPressed = false;
 		bool rightGripPressed = false;
 		// Setup Vive Controllers
-		try {
+		/*try {
 			leftController = SteamVR_Controller.Input((int)leftTrackedObject.index);
 			leftTriggerPulled = leftController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger);
 			leftGripPressed = leftController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip);
 		} catch (System.Exception) {
 			//Just roll with it
 			leftActive = false;
-		}
+		}*/
 
 		try {
 			rightController = SteamVR_Controller.Input((int)rightTrackedObject.index);
 			rightTriggerPulled = rightController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger);
 			rightGripPressed = rightController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip);
 		} catch (System.Exception) {
-			if (!leftActive) {
+			//if (!leftActive) {
 				Debug.Log ("No controllers Connected");
-			}
+			//}
 		}
 			
 		bool triggersPulled = (leftTriggerPulled || rightTriggerPulled);
@@ -150,11 +150,11 @@ public class HunterController : NetworkBehaviour {
         timeCounter += Time.deltaTime;
 
 		if (isServer) {
-			Ray leftControllerRay = new Ray (leftTrackedObject.transform.position, leftTrackedObject.transform.forward);
+			//Ray leftControllerRay = new Ray (leftTrackedObject.transform.position, leftTrackedObject.transform.forward);
 			Ray rightControllerRay = new Ray (rightTrackedObject.transform.position, rightTrackedObject.transform.forward);
 			RaycastHit objectHit;
 			GameObject obj = null;
-			if (Physics.Raycast(leftControllerRay, out objectHit, ShootDistance) || Physics.Raycast(rightControllerRay, out objectHit, ShootDistance)) {
+			if (Physics.Raycast(rightControllerRay, out objectHit, ShootDistance)) {
 				obj = objectHit.transform.gameObject;
 				// if aiming at a player
 				if (obj.tag.Equals("Player")) {
@@ -237,6 +237,7 @@ public class HunterController : NetworkBehaviour {
 				if (obj != null && obj.tag.Equals("Player")) {
 					GameObject playerHit = obj;
 					playerHit.GetComponent<PropController>().TakeDamage(Damage);
+					this.gameObject.GetComponent<PointCounter> ().numPoints = 5;
 					Debug.Log("Hit: " + playerHit);
 				}
 			}

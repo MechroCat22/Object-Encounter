@@ -33,6 +33,7 @@ public class PropController : NetworkBehaviour {
     public AudioClip respawnSound;
     public AudioClip objChangeSound;
     public AudioClip doorSound;
+	private int updateCount = 0;
     private bool tookDamage = false;
 
     [SyncVar]
@@ -144,6 +145,12 @@ public class PropController : NetworkBehaviour {
 
     // Update is called once per frame
     void Update() {
+		if (isLocalPlayer && isServer && updateCount > 30) {
+			SendPropMessageTag ();
+			updateCount = 0;
+		} else {
+			updateCount++;
+		}
         if (tookDamage)
         {
             playerAudio.PlayOneShot(damageSound, 2f);
@@ -220,9 +227,11 @@ public class PropController : NetworkBehaviour {
     }
 
 	private void SendPropMessageTag() {
+		//Debug.Log ("I've made the message!");
 		PropMessage msg = new PropMessage ();
 		NetworkIdentity playerIdtt = this.GetComponent<NetworkIdentity>() as NetworkIdentity;
 		msg.msgType = PropMessage.Type.Tag;
+		msg.prop = playerIdtt.netId;
 		msg.player = playerIdtt.netId;
 		NetworkClient.allClients [0].Send (PropMessage.TypeId, msg);
 	}
