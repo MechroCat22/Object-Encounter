@@ -5,7 +5,7 @@ Date:    December 15th, 2015
 
 Send questions or comments to chase3@wisc.edu
 
-- Description -
+- Description
 
 This game is a Unity project for a hide-and-seek game based on Garry's Mod's PropHunt. 
 The game follows a Host/Client structure, where the host is the seeker and the clients
@@ -19,7 +19,7 @@ seeker, with closer rewarding more points. Don't stray too far though, as if you
 eventually be losing points!
 
 
-- Functionality/Usage -
+- Functionality/Usage
 
 Object Encounter is built using Unity 5's NetworkBehaviour API, with the host of the game
 acting as the seeker. There is only one seeker per game, and the game immedately starts as
@@ -55,27 +55,29 @@ The game ends after 5 minutes, where the screen will fade to black. In the Vive 
 default Network Manager HUD to start a new session (end the current session and start again), or for both
 builds you can just restart the .exe's and have everyone try again.
 
-- Controls -
-For the Oculus build:
+- Controls
 
+For the Oculus build:
+<code>
     Hunter: W -          move forward                   Hiders: W -          move forward
             A -          strafe left                            A -          strafe left
             S -          move backwards                         S -          move backwards
             D -          strafe right                           D -          strafe right
             spacebar -   jump                                   spacebar -   jump
             Left-click - open doors, fire gun                   Left-click - open doors, turn into objects
+</code>
             
 For the Vive build:
-
+<code>
     Hunter: Touchpad UP    - move forward                   Hiders: W -          move forward
             Touchpad LEFT  - strafe left                            A -          strafe left
             Touchpad DOWN  - move backwards                         S -          move backwards
             Touchpad RIGHT - strafe right                           D -          strafe right
             Grip Button    - jump                                   spacebar -   jump
             Trigger        - open doors, fire gun                   Left-click - open doors, turn into objects
+</code>
 
-
-- Gameplay Comments - 
+- Gameplay Comments
 
 The colliders on the stairs don't seem to work correctly, and often the player falls through them into the
 basement. Players found that constantly jumping up the stairs works best.
@@ -89,7 +91,7 @@ The invisible boundaries around the house in the Vive build were absolutely nece
 to the corner of the map and hiding/waiting until the timer ran out.
 
 
-- BUGS - 
+- BUGS
 
 Currently in Unity there is an error pertaining to the MeshCollider of a certain object (fridge).
 The error doesn't cause any issues in the editor or building in any way. There are also a few
