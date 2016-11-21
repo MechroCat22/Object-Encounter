@@ -2,9 +2,12 @@
 A virtual reality hide-and-seek game
 
 Authors: Andrew Chase, Sizhuo Ma, Grayson Freking
+
 Date:    December 15th, 2015
 
 Send questions or comments to chase3@wisc.edu
+
+--------------------------------------------------------------------------------------------------------
 
 - Description
 
