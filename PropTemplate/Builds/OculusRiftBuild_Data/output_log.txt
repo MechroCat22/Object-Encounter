@@ -2,40 +2,341 @@ Initialize engine version: 5.4.0f3 (a6d8d714de6f)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
-    Renderer: NVIDIA Quadro M4000 (ID=0x13f1)
+    Renderer: NVIDIA GeForce GTX 780 Ti (ID=0x100a)
     Vendor:   NVIDIA
-    VRAM:     3072 MB
+    VRAM:     3013 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  1.599 seconds
-Platform assembly: S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: S:\apps\dev\VR-Object-Hunt\PropTemplate\Builds\OculusRiftBuild_Data\Managed\System.dll (this message is harmless)
-desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.033 seconds
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 144Hz; virtual: 5760x1080 at -1920,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 2.736139 ms
+UnloadTime: 0.678176 ms
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 16.524179 ms
+UnloadTime: 14.480741 ms
 This MeshCollider requires the mesh to be marked as readable in order to be usable with the given transform.
  
 (Filename:  Line: 288)
 
 
 Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 39340.
-Total: 7.228660 ms (FindLiveObjects: 2.077977 ms CreateObjectMapping: 0.746258 ms MarkObjects: 4.136283 ms  DeleteObjects: 0.268139 ms)
+Total: 5.260112 ms (FindLiveObjects: 1.822709 ms CreateObjectMapping: 0.475425 ms MarkObjects: 2.818324 ms  DeleteObjects: 0.143066 ms)
 
-Setting up 4 worker threads for Enlighten.
-  Thread -> id: 2b70 -> priority: 1 
-  Thread -> id: 1f6c -> priority: 1 
-  Thread -> id: 2428 -> priority: 1 
-  Thread -> id: 2414 -> priority: 1 
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+True Static 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Hit: Player (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Hit: Player (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Hit: Player (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Hit: Player (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Hit: Player (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Initialize engine version: 5.4.0f3 (a6d8d714de6f)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 780 Ti (ID=0x100a)
+    Vendor:   NVIDIA
+    VRAM:     3013 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.037 seconds
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\MechroCat22\Documents\Object-Encounter\PropTemplate\Builds\OculusRiftBuild_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 144Hz; virtual: 5760x1080 at -1920,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.796667 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 15.393851 ms
+This MeshCollider requires the mesh to be marked as readable in order to be usable with the given transform.
+ 
+(Filename:  Line: 288)
+
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 39260.
+Total: 4.739923 ms (FindLiveObjects: 1.151847 ms CreateObjectMapping: 0.508778 ms MarkObjects: 2.920431 ms  DeleteObjects: 0.158572 ms)
+
+Hit: Player(Clone) (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Hit: Player(Clone) (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Hit: Player(Clone) (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnCtyEngineDebugBinlient.gen.cp sent:  42)
+
+368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Hit: Player(Clone) (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Hit: Player(Clone) (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Hit: Player(Clone) (UnityEngine.GameObject)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client sent: 368 197
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Server received: 368 197
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 197
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Client received: 368 197
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: f04 -> priority: 1 
+  Thread -> id: 1560 -> priority: 1 
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: a18 -> priority: 1 
+  Thread -> id: 1a3c -> priority: 1 
