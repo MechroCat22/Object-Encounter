@@ -1,5 +1,6 @@
 # Object Encounter
 A virtual reality hide-and-seek game
+
 Authors: Andrew Chase, Sizhuo Ma, Grayson Freking
 Date:    December 15th, 2015
 
