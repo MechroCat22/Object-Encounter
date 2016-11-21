@@ -58,24 +58,24 @@ builds you can just restart the .exe's and have everyone try again.
 - Controls
 
 For the Oculus build:
-<code>
+
     Hunter: W -          move forward                   Hiders: W -          move forward
             A -          strafe left                            A -          strafe left
             S -          move backwards                         S -          move backwards
             D -          strafe right                           D -          strafe right
             spacebar -   jump                                   spacebar -   jump
             Left-click - open doors, fire gun                   Left-click - open doors, turn into objects
-</code>
+
             
 For the Vive build:
-<code>
+
     Hunter: Touchpad UP    - move forward                   Hiders: W -          move forward
             Touchpad LEFT  - strafe left                            A -          strafe left
             Touchpad DOWN  - move backwards                         S -          move backwards
             Touchpad RIGHT - strafe right                           D -          strafe right
             Grip Button    - jump                                   spacebar -   jump
             Trigger        - open doors, fire gun                   Left-click - open doors, turn into objects
-</code>
+
 
 - Gameplay Comments
 
