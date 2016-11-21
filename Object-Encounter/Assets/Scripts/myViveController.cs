@@ -1,15 +1,28 @@
-﻿using UnityEngine;
+﻿///////////////////////////////////////////////////////////////////////////////
+// File:             myViveController.cs
+// Date:			 November 20 2016
+//
+// Author:           Andrew Chase chase3@wisc.edu
+///////////////////////////////////////////////////////////////////////////////
+using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Reworked version of the hunter controller to use the Vive Controller
+/// </summary>
 [RequireComponent(typeof(PlayerMotor))]
 public class myViveController : NetworkBehaviour {
 
-	//[SerializeField]
+	// Steam controllers
+	// TODO: Only one controller is used, so getting input from the left controller
+	// is unnecessary
 	private SteamVR_TrackedObject leftTrackedObject;
 	private SteamVR_Controller.Device leftController;
-	//[SerializeField]
+
 	private SteamVR_TrackedObject rightTrackedObject;
 	private SteamVR_Controller.Device rightController;
+
+	// Movement variables
 	[SerializeField]
 	private float speed = 8f;
 	[SerializeField]
@@ -25,8 +38,10 @@ public class myViveController : NetworkBehaviour {
 	public AudioClip jumpSound;
 	public AudioClip footSteps;
 
+	// Script to move the player
 	private PlayerMotor motor;
 
+	// Initialization
 	void Start ()
 	{
 		// For safety
@@ -90,25 +105,14 @@ public class myViveController : NetworkBehaviour {
 		Vector3 _movHorizontal;
 		Vector3 _movVertical;
 
+		// Move relative to the first person camera
 		if (isServer) {
 			_movHorizontal = firstPersonCam.transform.right * _xMov;
 			_movVertical = firstPersonCam.transform.forward * _zMov;
 		}
-		//else {
-			// Never reach here
-			//_movHorizontal = thirdPersonCam.transform.right * _xMov;
-			//_movVertical = thirdPersonCam.transform.forward * _zMov;
-		//}
 
-		// NO SPRINT FOR HUNTER ATM - MIGHT BE BETTER TO KEEP OFF
-		//if (Input.GetKey(KeyCode.LeftShift))
-		//{
-			//finalSpeed = speed * sprintMultiplier;
-		//}
-		//else
-		//{
 		finalSpeed = speed;
-		//}
+
 
 		// Final movement vector
 		Vector3 _velocity = (_movHorizontal + _movVertical).normalized * finalSpeed;

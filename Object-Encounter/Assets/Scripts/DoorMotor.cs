@@ -1,49 +1,57 @@
-﻿using UnityEngine;
+﻿///////////////////////////////////////////////////////////////////////////////
+// File:             DoorMotor.cs
+// Date:			 November 20 2016
+//
+// Authors:          Sizhuo Ma sizhuoma@cs.wisc.edu
+//					 Andrew Chase chase3@wisc.edu
+///////////////////////////////////////////////////////////////////////////////
+using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 
+/// <summary>
+/// Controls the door transform across the network.
+/// The server moves the door, and updates the position to the clients
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class DoorMotor : NetworkBehaviour
 {
 
-    // axis to rotate around
+    // Axis to rotate around
     public float AxisX = 0.0f;
     public float AxisY = 0.0f;
     public float AxisZ = 0.0f;
-    // degree when the door is completely open
+
+    // Degree when the door is completely open
     public float MaxDegree = 90.0f;
-    // max degree is positive or negative
+    // Max degree is positive or negative
     public bool PositiveDirection = true;
-    // time it takes to reach the max degree
+    // Time it takes to reach the max degree
     public float OpenTime = 0.5f;
-
-
-    //private NetworkTransform networkTransform;
-
-    //[SyncVar]
+	// Current degree of the door
     private float currDegree;
+	// Enum for the current state of the door
     private enum State { Opening, Closing, Static };
+
+	// State of the door across the network, updated continuously by the server
     [SyncVar]
     private State currState;
 
-    // Use this for initialization
+    // Initialization
     void Start()
     {
         currDegree = 0;
         currState = State.Static;
         GetComponent<Rigidbody>().isKinematic = true;
-        //networkTransform = GetComponent<NetworkTransform>();
-        //networkTransform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
-        //networkTransform.sendInterval = 29;
     }
 
     void FixedUpdate()
     {
-        //if (!isServer)
-        //    return;
-
         float currSpeed;
         float deltaDegree;
+
+		// Update the door position based on the state
+		// Do nothing of the door is static
         switch (currState)
         {
             case State.Opening:
@@ -60,10 +68,9 @@ public class DoorMotor : NetworkBehaviour
                 {
                     currDegree += deltaDegree;
                 }
+				// Move the door
                 transform.RotateAround(transform.TransformPoint(new Vector3(AxisX, AxisY, AxisZ)), new Vector3(0, 1, 0), 
                     PositiveDirection ? deltaDegree : -deltaDegree);
-
-                //networkTransform.SetDirtyBit(1u);
                 break;
 
             case State.Closing:
@@ -79,15 +86,17 @@ public class DoorMotor : NetworkBehaviour
                 {
                     currDegree += deltaDegree;
                 }
+				// Move the door
                 transform.RotateAround(transform.TransformPoint(new Vector3(AxisX, AxisY, AxisZ)), new Vector3(0, 1, 0), 
                     PositiveDirection ? deltaDegree : -deltaDegree);
-                //networkTransform.SetDirtyBit(1u);
                 break;
 
         }
     }
-
-    //[Command]
+		
+	/*
+	 * Moves initiates movement of the door, called by a client
+	 **/
     public void Move()
     {
         Debug.Log(isServer + " " + currState + " " + currDegree);
@@ -95,22 +104,18 @@ public class DoorMotor : NetworkBehaviour
         {
             case State.Closing:
                 currState = State.Opening;
-                //GetComponents<AudioSource>()[0].Play();
                 break;
             case State.Opening:
                 currState = State.Closing;
-                //GetComponents<AudioSource>()[1].Play();
                 break;
             case State.Static:
                 if (currDegree == 0)
                 {
                     currState = State.Opening;
-                    //GetComponents<AudioSource>()[0].Play();
                 }
                 else
                 {
                     currState = State.Closing;
-                    //GetComponents<AudioSource>()[1].Play();
                 }
                 break;
         }

@@ -1,5 +1,16 @@
-﻿using UnityEngine;
+﻿///////////////////////////////////////////////////////////////////////////////
+// File:             MainMenuUIControl.cs
+// Date:			 November 20 2016
+//
+// Author:           Andrew Chase chase3@wisc.edu
+///////////////////////////////////////////////////////////////////////////////
+using UnityEngine;
 using System.Collections;
+
+/// <summary>
+/// Controller used for interacting with the main menu
+/// For debugging only
+/// </summary>
 public class MainMenuUIControl : MonoBehaviour {
 
     private Camera myCamera;

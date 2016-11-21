@@ -1,7 +1,18 @@
-﻿using UnityEngine;
+﻿///////////////////////////////////////////////////////////////////////////////
+// File:             Timer.cs
+// Date:			 November 20 2016
+//
+// Author:           Sizhuo Ma sizhuoma@cs.wisc.edu
+//					 Andrew Chase chase3@wisc.edu
+///////////////////////////////////////////////////////////////////////////////
+using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 
+/// <summary>
+/// Global timer for the game, which is synced across the network
+/// Starts at 5 minutes, and game ends when the timer reaches 0
+/// </summary>
 public class Timer : NetworkBehaviour {
 
     [HideInInspector, SyncVar]
@@ -18,7 +29,8 @@ public class Timer : NetworkBehaviour {
         if (!isServer)
             return;
 
-        // TEMPORARY SOLUTION: timer starts when the server (the local client) enters the game scene
+        // TEMPORARY SOLUTION: timer starts when the server starts the game (and
+		// enters first)
         int absoluteTime = RoundSeconds - (int)Time.timeSinceLevelLoad;
         SecondsLeft = absoluteTime % 60;
         MinutesLeft = absoluteTime / 60;
@@ -26,6 +38,8 @@ public class Timer : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		// Only the server updates the timer
         if (!isServer)
             return;
 
@@ -43,6 +57,7 @@ public class Timer : NetworkBehaviour {
             MinutesLeft = newMinutes;
 	}
 
+	// Check if the game has ended
     public bool GameOver() {
         return MinutesLeft == 0 && SecondsLeft == 0;
     }

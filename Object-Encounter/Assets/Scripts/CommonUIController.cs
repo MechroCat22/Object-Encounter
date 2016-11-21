@@ -1,22 +1,33 @@
-﻿using UnityEngine;
+﻿///////////////////////////////////////////////////////////////////////////////
+// File:             CommonUIController.cs
+// Date:			 November 20 2016
+//
+// Authors:          Sizhuo Ma sizhuoma@cs.wisc.edu
+// 					 Andrew Chase chase3@wisc.edu
+///////////////////////////////////////////////////////////////////////////////
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
+/// <summary>
+/// Controller used for timer prompt and screen blackout at end
+/// </summary>
 public class CommonUIController : MonoBehaviour {
 
+	// Prompt for timer
     private Text timerText;
+	// Timer itself
     private Timer timer;
-
+	// Texture used for screen blackout
     private RawImage screenBackground;
-
+	// Flag for determining when the game ends
     private bool gameOver;
 
-	// Use this for initialization
+	// Initialization
 	void Start () {
         timerText = gameObject.transform.Find("TimerText").GetComponent<Text>();
         timer = GameObject.Find("Timer").GetComponent<Timer>();
         screenBackground = gameObject.transform.Find("ScreenBackground").GetComponent<RawImage>();
-
         gameOver = false;
 	}
 	
@@ -24,6 +35,7 @@ public class CommonUIController : MonoBehaviour {
 	void Update () {
         timerText.text = string.Format("{0:D2}:{1:D2}", timer.MinutesLeft, timer.SecondsLeft);
 
+		// If the timer runs out, fade the screen to black
         if (!gameOver && timer.GameOver()) {
             gameOver = true;
             screenBackground.enabled = true;

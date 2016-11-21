@@ -1,30 +1,49 @@
-﻿using UnityEngine;
+﻿///////////////////////////////////////////////////////////////////////////////
+// File:             PlayerMotor.cs
+// Date:			 November 20 2016
+//
+// Author:           Sizhuo Ma sizhuoma@cs.wisc.edu
+///////////////////////////////////////////////////////////////////////////////
+using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Handles player movement, when given player input from 
+/// myPlayerController/myViveController
+/// Based on a tutorial by Game To Game Developer
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMotor : NetworkBehaviour {
 
 	[SerializeField]
 	private Transform playerPosition;
+
+	// References for both cameras, workaround for
+	// only having one spawnable player prefab
 	[SerializeField]
 	private Camera firstPersonCam;
 	[SerializeField]
 	private Camera thirdPersonCam;
+
+	// Final camera variable, assigned to one of the above
 	private Camera cam;
+
+	// States for the player
     private Vector3 velocity = Vector3.zero;
     private Vector3 rotation = Vector3.zero;
     private Vector3 cameraRotation = Vector3.zero;
     private Rigidbody rb;
 
+	// Initialization
     void Start ()
     {
+		// Choose camera based on the role of the player
 		if (isServer) {
 			cam = firstPersonCam;
 			cam.transform.position += new Vector3 (0f, 0.5f, 0f);
 		}
 		else {
 			cam = thirdPersonCam;
-			//cam.transform.localPosition = new Vector3 (0f, 2f, -4f);
 		}
         rb = GetComponent<Rigidbody>();
     }
@@ -75,9 +94,7 @@ public class PlayerMotor : NetworkBehaviour {
 
     void PerformRotation()
     {
-		//if (isServer) {
-			rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
-		//}
+		rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
        
         if (cam != null)
         {
@@ -90,22 +107,11 @@ public class PlayerMotor : NetworkBehaviour {
 					eulerAngles.x = 270;
 				cam.transform.localEulerAngles = eulerAngles;
 			}
-            //cam.transform.Rotate(-cameraRotation);
-            // clamp the rotation
+
             // Third person camera movement
 			else {
-				
-				// ALL of this is random
-				//eulerAngles.y -= cameraRotation.y;
-				//cam.transform.localEulerAngles = eulerAngles;
-				//Vector3 xAxis = Vector3.Cross(playerPosition.up, Vector3.up);
 				Vector3 xAxis = -playerPosition.right;
-				//Vector3 yAxis = playerPosition.up;
 				cam.transform.RotateAround (playerPosition.position, xAxis, cameraRotation.x);
-				//cam.transform.RotateAround (playerPosition.position, yAxis, cameraRotation.y);
-				//Vector3 newCamPos = rb.position;
-				//newCamPos -= new Vector3 (0f, 2f, -4f);
-				//cam.transform.position = newCamPos;
 			}
             
         }

@@ -1,6 +1,16 @@
-﻿using UnityEngine;
+﻿///////////////////////////////////////////////////////////////////////////////
+// File:             PlayerSetup.cs
+// Date:			 November 20 2016
+//
+// Author:           Andrew Chase chase3@wisc.edu
+///////////////////////////////////////////////////////////////////////////////
+using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Sets up the player for network gameplay, including disabling components on
+/// player objects that aren't local authority
+/// </summary>
 public class PlayerSetup : NetworkBehaviour {
 
     [SerializeField]
@@ -11,13 +21,16 @@ public class PlayerSetup : NetworkBehaviour {
 	private GameObject thirdPersonCamera;
 
 	public bool firstPerson;
-	//private Vector3 camPosition;
-	//private Quaternion camRotation;
 
+	// Camera viewing the scene, only used at the main menu
     Camera sceneCamera;
 
+	// Initialization
     void Start()
     {
+		// If the object in the scene (which has this script, so is a player object)
+		// isn't the object we control, disable all the scripts to avoid moving it with
+		// input
         if (!isLocalPlayer)
         {
             for (int i = 0; i < componentsToDisable.Length; i++)
@@ -30,6 +43,7 @@ public class PlayerSetup : NetworkBehaviour {
         }
         else
         {
+			// Set up player based on whether they are a hider or seeker
             sceneCamera = Camera.main;
             if (sceneCamera != null)
             {
@@ -38,21 +52,16 @@ public class PlayerSetup : NetworkBehaviour {
 			 if (!isServer) {
 				disableAll (firstPersonCamera);	
 				GetComponent<myViveController> ().enabled = false;
-				//thirdPersonCamera.SetActive (true);
 			} 
 			else {
 				GetComponent<myPlayerController> ().enabled = false;
-				//firstPersonCamera.SetActive (true);
 				disableAll (thirdPersonCamera);		
-				//GetComponent<PropController> ().enabled = false;
-				// disable hunter's mesh so it won't obstruct first person camera view
-				//this.transform.Find("Graphics").Find("Player Model").GetComponent<MeshRenderer>().enabled = false;
 			}
         }
 
     }
 		
-
+	// Ensure that the scene camera gets re-enabled to prevent black screens
     void OnDisable()
     {
         if (sceneCamera != null)
@@ -61,6 +70,7 @@ public class PlayerSetup : NetworkBehaviour {
         }
     }
 
+	// Disables all scripts in the child objects
 	void disableAll(GameObject cam) {
 		// Disable the object
 		cam.SetActive(false);

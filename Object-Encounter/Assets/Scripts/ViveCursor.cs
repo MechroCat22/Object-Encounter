@@ -1,6 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////
+// File:             ViveCursor.cs
+// Date:			 November 20 2016
+//
+// Author:          thestonefox
+///////////////////////////////////////////////////////////////////////////////
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Renders a laser line in the scene to see where the vive controller is pointing
+/// Script publicly available from github.com/thestonefox
+/// </summary>
 public class ViveCursor : MonoBehaviour {
     public enum AxisType
     {

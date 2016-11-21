@@ -1,41 +1,58 @@
-﻿using UnityEngine;
+﻿///////////////////////////////////////////////////////////////////////////////
+// File:             HunterController.cs
+// Date:			 November 20 2016
+//
+// Authors:           Andrew Chase chase3@wisc.edu
+//                    Sizhuo Ma sizhuoma@cs.wisc.edu
+///////////////////////////////////////////////////////////////////////////////
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
-//using UnityStandardAssets.CrossPlatformInput;
 
+/// <summary>
+/// Controls hunter-based gameplay, including shooting hiding players
+/// and opening doors
+/// </summary>
 public class HunterController : NetworkBehaviour {
 
-	//[SerializeField]
-	//private SteamVR_TrackedObject leftTrackedObject;
-	//private SteamVR_Controller.Device leftController;
-	//[SerializeField]
+	// Steam controller objects
 	private SteamVR_TrackedObject rightTrackedObject;
 	private SteamVR_Controller.Device rightController;
+
+	// GUI textfields
+	// Different fields are used based on which player camera is used
 	private Text UIText;
 	public Text firstPersonText;
 	public Text thirdPersonText;
+
+	// Hunter tweaks
     public float FireRate = 0.03f;
     public int Damage = 100;
     public float ShootDistance = 500f;
     public float InteractDistance = 150f;
     public int WaitTime = 15;
+
+	// Door sound
     public AudioClip doorSound;
 
+	// Timer used to control when the hunter can fire again
     private float timeCounter = 0;
 
+	// Determining if the hunter is active in the scene
     [SyncVar]
     private bool isActive;
 
+	// Camera reference
     private Camera myCamera;
-    private ParticleSystem psys;
     private DoorController doorController;
     private Timer timer;
 
+	// Choosing the spawn direction and position when player enters the game
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
     private Rigidbody rigidBody;
-
+	// Hunter waits for 15 seconds at the beginning of the game
     private bool waiting;
 
 
@@ -43,25 +60,21 @@ public class HunterController : NetworkBehaviour {
     // Use this for initialization
     void Start() {
 
+		// If the player is the host and the object in the scene is the localplayer's character, initialize the Steam controller
 		if (isServer && isLocalPlayer) {
-			//leftTrackedObject = this.transform.Find("[CameraRig]").Find("Controller (left)").GetComponent<SteamVR_TrackedObject>();
 			rightTrackedObject = this.transform.Find("[CameraRig]").Find("Controller (right)").GetComponent<SteamVR_TrackedObject>();
 		}
+
+		// Determining the camera based on if the person is a seeker or hider
 		string whichCamera;
 		if (isServer && isLocalPlayer) {
 			whichCamera = "FirstPerson";
 			UIText = firstPersonText;
-			//this.tag = "Hunter";
-			//UIText = gameObject.transform.Find ("ThirdPerson").Find ("Canvas").Find ("MessageText").GetComponent<Text> ();
 		} else {
 			whichCamera = "ThirdPerson";
 			UIText = thirdPersonText;
 		}
 		myCamera = transform.Find(whichCamera).GetComponent<Camera>();
-        Transform gun = myCamera.transform.Find("Gun");
-        Transform psh = gun.Find("Shot Effect");
-        Transform ps = psh.Find("Particle System");
-        psys = ps.GetComponent<ParticleSystem>();
         doorController = GetComponent<DoorController>();
         timer = GameObject.Find("Timer").GetComponent<Timer>();
 
@@ -80,17 +93,13 @@ public class HunterController : NetworkBehaviour {
                 isActive = false;
             }
         }
-        if (!isActive) {
-            gun.gameObject.SetActive(false);
-        }
 
         // wait at the beginning of the game
         if (isActive) {
             waiting = true;
             GetComponent<myViveController>().enabled = false;
         }
-
-		// Set up Vive?
+			
     }
 
     // Update is called once per frame
@@ -98,29 +107,21 @@ public class HunterController : NetworkBehaviour {
         // return if I am not a hunter player
         if (!isActive || !isLocalPlayer)
             return;
+
+		// Flags for determining controller state per frame
 		bool leftActive = true;
 		bool leftTriggerPulled = false;
 		bool rightTriggerPulled = false;
 		bool leftGripPressed = false;
 		bool rightGripPressed = false;
-		// Setup Vive Controllers
-		/*try {
-			leftController = SteamVR_Controller.Input((int)leftTrackedObject.index);
-			leftTriggerPulled = leftController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger);
-			leftGripPressed = leftController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip);
-		} catch (System.Exception) {
-			//Just roll with it
-			leftActive = false;
-		}*/
 
+		// Setup Vive Controller
 		try {
 			rightController = SteamVR_Controller.Input((int)rightTrackedObject.index);
 			rightTriggerPulled = rightController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger);
 			rightGripPressed = rightController.GetPressDown(Valve.VR.EVRButtonId.k_EButton_Grip);
 		} catch (System.Exception) {
-			//if (!leftActive) {
-				Debug.Log ("No controllers Connected");
-			//}
+			Debug.Log ("No controllers Connected");
 		}
 			
 		bool triggersPulled = (leftTriggerPulled || rightTriggerPulled);
@@ -150,6 +151,7 @@ public class HunterController : NetworkBehaviour {
         // time counter: can only shoot when a certain amount of time (FireRate) has passed
         timeCounter += Time.deltaTime;
 
+		// Raycasting - used for shooting and opening doors
 		if (isServer) {
 			//Ray leftControllerRay = new Ray (leftTrackedObject.transform.position, leftTrackedObject.transform.forward);
 			Ray rightControllerRay = new Ray (rightTrackedObject.transform.position, rightTrackedObject.transform.forward);
@@ -183,11 +185,9 @@ public class HunterController : NetworkBehaviour {
 				// reset time counter
 				timeCounter = 0.0f;
 
-				// play the muzzle flash effect
-				//psys.Play();
-
 				// play the gun sound effect
 				GetComponent<AudioSource>().Play();
+				// Haptic feedback!
 				rightController.TriggerHapticPulse (1200);
 
 				if (obj != null && obj.tag.Equals("Player")) {
@@ -230,12 +230,9 @@ public class HunterController : NetworkBehaviour {
 				// reset time counter
 				timeCounter = 0.0f;
 
-				// play the muzzle flash effect
-				//psys.Play();
 				rightController.TriggerHapticPulse(700);
 				// play the gun sound effect
 				GetComponent<AudioSource>().Play();
-
 
 				if (obj != null && obj.tag.Equals("Player")) {
 					GameObject playerHit = obj;

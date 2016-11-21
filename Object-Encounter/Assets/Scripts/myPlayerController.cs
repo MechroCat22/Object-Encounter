@@ -1,6 +1,16 @@
-﻿using UnityEngine;
+﻿///////////////////////////////////////////////////////////////////////////////
+// File:             myPlayerController.cs
+// Date:			 November 20 2016
+//
+// Author:           Andrew Chase chase3@wisc.edu
+///////////////////////////////////////////////////////////////////////////////
+using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Handles user input for moving the player around the scene
+/// Based on a tutorial series from Game To Game Developer
+/// </summary>
 [RequireComponent(typeof(PlayerMotor))]
 public class myPlayerController : NetworkBehaviour {
 
@@ -19,8 +29,10 @@ public class myPlayerController : NetworkBehaviour {
     public AudioClip jumpSound;
     public AudioClip footSteps;
 
+	// Script to more player around
     private PlayerMotor motor;
 
+	// Initialization
     void Start ()
     {
         motor = GetComponent<PlayerMotor>();
@@ -36,15 +48,20 @@ public class myPlayerController : NetworkBehaviour {
         Vector3 _movHorizontal;
         Vector3 _movVertical;
 
+		// If player is the host, we are in first person view, so move
+		// relative to their own transform
 		if (isServer) {
 			_movHorizontal = transform.right * _xMov;
 			_movVertical = transform.forward * _zMov;
 		}
+		// If the player is a hider, move relative to the third person
+		// camera
 		else {
 			_movHorizontal = thirdPersonCam.transform.right * _xMov;
 			_movVertical = thirdPersonCam.transform.forward * _zMov;
 		}
 
+		// Left shift used for sprinting
         if (Input.GetKey(KeyCode.LeftShift))
         {
             finalSpeed = speed * sprintMultiplier;
@@ -89,6 +106,8 @@ public class myPlayerController : NetworkBehaviour {
 
     }
 
+	// For jumping, to prevent infinite jump
+	// BUG: Player can still jump 2-3 times in midair if spacebar is spammed
     void OnCollisionStay()
     {
         isFalling = false;

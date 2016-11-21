@@ -1,32 +1,52 @@
-﻿using UnityEngine;
+﻿///////////////////////////////////////////////////////////////////////////////
+// File:             PropController.cs
+// Date:			 November 20 2016
+//
+// Authors:          Andrew Chase chase3@wisc.edu
+//					 Sizhuo Ma sizhuoma@cs.wisc.edu
+///////////////////////////////////////////////////////////////////////////////
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
-//using UnityStandardAssets.CrossPlatformInput;
 
+/// <summary>
+/// Handles prop-based functionality, including chaning into objects
+/// and opening doors
+/// </summary>
 public class PropController : NetworkBehaviour {
 
+	// Default Model for the player (skeleton)
     public GameObject DefaultModel;
+
+	// Texts based on the camera used
 	private Text UIText;
 	public Text firstPersonText;
 	public Text thirdPersonText;
+
+	// Made the health of the player 1, since it was difficult to
+	// tag players with the Vive controller multiple times
     public int MaxHealth = 1;
+	// Distance player can open a door
     public float InteractDistance = 10f;
+	// Layer Mask to prevent raycasts from being blocked in third person view
 	public LayerMask ignorePlayer;
+
+	// Current player model
     private GameObject playerModel;
     private GameObject graphics;
     private GameObject cam;
     private Camera myCamera;
-
     private Rigidbody rigidBody;
 
+	// Open doors
     private DoorController doorController;
-
+	// Reference to the timer
     private Timer timer;
-
+	// Initial position and rotation when spawned
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
-
+	// Sound effects - LOCAL ONLY
     private AudioSource playerAudio;
     public AudioClip damageSound;
     public AudioClip deathSound;
@@ -36,45 +56,54 @@ public class PropController : NetworkBehaviour {
 	private int updateCount = 0;
     private bool tookDamage = false;
 
+	// Flag indicating player is active in the scene
     [SyncVar]
     private bool isActive;
 
+	// Player health, updated to all clients constantly by the server
     [SyncVar, HideInInspector]
     public int health;
+
+	// Flag for if the player runs out of health
     [SyncVar]
     private bool dead;
 
+	// Message to pass to the server, based on how the state of the player changed
+	// Change - Prop changed into a different object
+	// Death - Player died
+	// Respawn - Player respawned after death
+	// Tag - Tag message to flag who the hunter is
     public class PropMessage : MessageBase {
         public enum Type { Change, Death, Respawn, Tag };
         public static short TypeId = 555;
+		// Type of message passed
         public Type msgType;
+		// Player associated with the message
         public NetworkInstanceId player;
+		// If Type.Change, the prop associated with the message
         public NetworkInstanceId prop;
     }
-
-	void Awake() {
 		
-	}
-    // Use this for initialization
+    // Initialization
     void Start() {
+
+		// If the player is the seeker, tag their player object as "Hunter" and 
+		// send a message to all clients that this object is the Hunter object
 		if (isServer && isLocalPlayer) {
-			//Debug.Log ("I am a server" + this.name);
 			this.tag = "Hunter";
-			//PropMessage setupTag;
-			//NetworkIdentity playerIdtt = gameObject.GetComponent<NetworkIdentity>() as NetworkIdentity;
-			//setupTag.player = playerIdtt.netId;
 			SendPropMessageTag ();
 		}
 
+		// Setup camera based on player role
 		string whichCamera;
 		if (isServer) {
 			whichCamera = "FirstPerson";
 			UIText = firstPersonText;
-			//UIText = gameObject.transform.Find ("ThirdPerson").Find ("Canvas").Find ("MessageText").GetComponent<Text> ();
 		} else {
 			whichCamera = "ThirdPerson";
 			UIText = thirdPersonText;
 		}
+
         // hide and lock the cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -98,23 +127,18 @@ public class PropController : NetworkBehaviour {
         // record the spawn place, used to respawn
         spawnPosition = transform.position;
         spawnRotation = transform.rotation;
-        
-        // set initial camera position
-        //Mesh mesh = playerModel.GetComponent<MeshFilter>().mesh;
-        //cam.transform.localPosition = new Vector3(0, mesh.bounds.min.y + mesh.bounds.size.y* 0.9f, 0);
-        //Debug.Log("bounds:" + mesh.bounds.max.y);
 
         // disable UI for other players
         if (!isLocalPlayer) {
             cam.transform.Find("Canvas").gameObject.SetActive(false);
         }
 
-        // ignore local player model
+        // ignore local player model to avoid clipping with first person camera
         if (isLocalPlayer && isServer) {
             playerModel.GetComponent<MeshRenderer>().enabled = false;
         }
 
-        // setup handlers
+        // setup handlers for messages
         if (isServer) {
             NetworkServer.RegisterHandler(PropMessage.TypeId, OnPropMessageServer);
         }
@@ -122,7 +146,7 @@ public class PropController : NetworkBehaviour {
             NetworkClient.allClients[0].RegisterHandler(PropMessage.TypeId, OnPropMessageClient);
         }
 
-        // TEMPORARY SOLUTION: the server is the hunter
+        // TEMPORARY SOLUTION: the server is the hunter permanantly
         if (isServer) {
             if (isLocalPlayer) {
                 isActive = false;
@@ -133,11 +157,14 @@ public class PropController : NetworkBehaviour {
         }
     }
 
+	// Remove the cursor when application opens
+	// Use Alt+F4 to close program
     void OnApplicationFocus() {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+	// When destoryed, give back the mouse pointer
     void OnDestroy() {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -182,7 +209,7 @@ public class PropController : NetworkBehaviour {
             return;
         }
 
-        // the aim is locked at the center of the screen
+        // the aim is locked at the center of the screen for the hiders
         Ray camRay = myCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
         RaycastHit objectHit;
 		if (Physics.Raycast(camRay, out objectHit, InteractDistance, ignorePlayer)) {
@@ -227,8 +254,9 @@ public class PropController : NetworkBehaviour {
         Debug.Log("Client sent: " + msg.player + " " + msg.prop);
     }
 
+	// Send message periodically to tell clients who the hunter is
+	// Must send periodically in case clients join mid-game
 	private void SendPropMessageTag() {
-		//Debug.Log ("I've made the message!");
 		PropMessage msg = new PropMessage ();
 		NetworkIdentity playerIdtt = this.GetComponent<NetworkIdentity>() as NetworkIdentity;
 		msg.msgType = PropMessage.Type.Tag;
@@ -312,25 +340,17 @@ public class PropController : NetworkBehaviour {
             -(targetMesh.bounds.min.y - playerModel.GetComponent<MeshFilter>().mesh.bounds.min.y),
             0));
 
-        // change the mesh
-        //playerModel.GetComponent<MeshFilter>().mesh = targetMesh;
-        //playerModel.GetComponent<MeshCollider>().sharedMesh = null;
-        //playerModel.GetComponent<MeshCollider>().sharedMesh = obj.GetComponent<MeshCollider>().sharedMesh;
+		// Change the mesh
         Destroy(playerModel);
         playerModel = Instantiate(prop, graphics.transform.position, graphics.transform.rotation) as GameObject;
         playerModel.transform.parent = graphics.transform;
         playerModel.tag = "Player";
 		playerModel.layer = LayerMask.NameToLayer("Player");
-        //if (isLocalPlayer) {
-        //    playerModel.GetComponent<MeshRenderer>().enabled = false;
-        //}
+
         MeshCollider meshCollider = playerModel.GetComponent<MeshCollider>();
         if (meshCollider != null) {
             meshCollider.convex = true; // non-kinematic rigid body can only have a convex mesh collider
         }
-
-        // also adjust the camera to the front face of the new model
-        //cam.transform.localPosition = new Vector3(0, targetMesh.bounds.min.y + targetMesh.bounds.size.y * 0.9f, 0);
     }
 
     // should be called by the hunter who shot me
@@ -390,23 +410,15 @@ public class PropController : NetworkBehaviour {
         }
 
         // change the mesh
-        //playerModel.GetComponent<MeshFilter>().mesh = targetMesh;
-        //playerModel.GetComponent<MeshCollider>().sharedMesh = null;
-        //playerModel.GetComponent<MeshCollider>().sharedMesh = obj.GetComponent<MeshCollider>().sharedMesh;
         Destroy(playerModel);
         playerModel = Instantiate(DefaultModel, graphics.transform.position, graphics.transform.rotation) as GameObject;
         playerModel.transform.parent = graphics.transform;
         playerModel.tag = "Player";
-        //if (isLocalPlayer) {
-            //playerModel.GetComponent<MeshRenderer>().enabled = false;
-        //}
+
         MeshCollider meshCollider = playerModel.GetComponent<MeshCollider>();
         if (meshCollider != null) {
             meshCollider.convex = true; // non-kinematic rigid body can only have a convex mesh collider
         }
-
-        // also adjust the camera to the front face of the new model
-        //cam.transform.localPosition = new Vector3(0, targetMesh.bounds.min.y + targetMesh.bounds.size.y * 0.9f, 0);
 
         // SECOND PART:
         // reset health the dead status
