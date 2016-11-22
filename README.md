@@ -116,3 +116,6 @@ collider interfering with the raycast.
 
 Clients randomly disconnect at times, though I'm unsure if this is due to the game itself or the network setup.
 
+I accidentally left a player prefab object in the scene in the Oculus Build. Since that build was an older build, and
+because I'm not sure which commit to revert to that would be associated with this version, I just decided t leave it there.
+It doesn't cause any errors, nor does it interfere with gameplay outside of being an environment artifact.
