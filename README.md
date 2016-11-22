@@ -7,6 +7,9 @@ Date:    December 15th, 2015
 
 Send questions or comments to chase3@wisc.edu
 
+The basic environment was made using Unity's primitive GameObjects, with
+free/purchased assets from the Unity Asset store.
+
 --------------------------------------------------------------------------------------------------------
 
 - Description
